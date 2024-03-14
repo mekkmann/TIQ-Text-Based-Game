@@ -1,4 +1,6 @@
-﻿namespace Text_Based_Game
+﻿using Text_Based_Game.Classes;
+
+namespace Text_Based_Game
 {
     internal class Program
     {
@@ -27,9 +29,17 @@
             {
                 Environment.Exit(0);
             }
+
             // spacing
             Console.WriteLine();
-            Console.WriteLine("we start");
+
+            // start game loop
+
+
+            // instantiate the player object
+            Player player = new();
+
+            // to keep console open
             Console.ReadLine();
         }
 
