@@ -56,5 +56,14 @@
                 CurrentHp = MaxHp;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void SpeakAboutEnvironment()
+        {
+            TextHelper.PrintStringCharByChar("Hon hon hon");
+            Console.WriteLine();
+        }
     }
 }
