@@ -2,16 +2,34 @@
 {
     internal class Program
     {
+        const string TitlePath = "Content/title.txt";
+        const string IntroPath = "Content/intro.txt";
         static void Main(string[] args)
         {
             // print the title
-            PrintTextFile("Content/title.txt", false);
+            PrintTextFile(TitlePath, false);
             // spacing
             Console.WriteLine();
+            // for build
+            // wait 2.5 seconds
+            //Thread.Sleep(2500);
             // print the intro lore
-            PrintTextFile("Content/intro.txt", true);
+            PrintTextFile(IntroPath, true);
+            // spacing
+            Console.WriteLine();
 
-            // to keep console open
+
+
+            Console.Write("Are you ready to start your adventure? (Y)es or any other key to quit: ");
+            ConsoleKeyInfo key = Console.ReadKey();
+            // if key does not equal 'Y'/'y', quit game
+            if (key.Key != ConsoleKey.Y)
+            {
+                Environment.Exit(0);
+            }
+            // spacing
+            Console.WriteLine();
+            Console.WriteLine("we start");
             Console.ReadLine();
         }
 
@@ -29,6 +47,9 @@
                 foreach (string line in fileLines)
                 {
                     PrintStringCharByChar(line);
+                    // for build
+                    //Thread.Sleep(500);
+                    Console.WriteLine();
                 }
             }
             else
@@ -48,8 +69,6 @@
             foreach (char c in line)
             {
                 Console.Write(c);
-                //for testing
-                Thread.Sleep(10);
                 //for build
                 //Thread.Sleep(25);
             }
