@@ -5,11 +5,11 @@
         static void Main(string[] args)
         {
             // print the title
-            PrintTextFile("title.txt", false);
+            PrintTextFile("Content/title.txt", false);
             // spacing
             Console.WriteLine();
             // print the intro lore
-            PrintTextFile("intro.txt", true);
+            PrintTextFile("Content/intro.txt", true);
 
             // to keep console open
             Console.ReadLine();
