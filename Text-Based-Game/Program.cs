@@ -19,31 +19,21 @@ namespace Text_Based_Game
             TextHelper.PrintTextFile(IntroPath, true);
             // spacing
             Console.WriteLine();
-
-
-
+            // ask the player if they want to start the game
             Console.Write("Are you ready to start your adventure? (Y)es or any other key to quit: ");
+            // get input
             ConsoleKeyInfo key = Console.ReadKey();
-            // if key does not equal 'Y'/'y', quit game
+            // if input does not equal 'Y'/'y', quit game
             if (key.Key != ConsoleKey.Y)
             {
                 Environment.Exit(0);
             }
-
             // spacing
             Console.WriteLine("\n");
-
-            // start game loop
-
-
-            // instantiate the player object
-            Player player = new();
-            // instantiate Tutorial Path
-            GamePath tutorialPath = new("Tutorial Path", 7, player, PathDifficulty.Easy);
-            tutorialPath.Start();
-
-            // to keep console open
-            Console.ReadLine();
+            // initialize GameManager
+            GameManager gameManager = new();
+            // start game
+            gameManager.StartGame();
         }
     }
 }

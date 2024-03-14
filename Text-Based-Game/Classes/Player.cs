@@ -1,5 +1,11 @@
 ﻿namespace Text_Based_Game.Classes
 {
+    enum Location
+    {
+        Town,
+        Path
+    }
+
     internal class Player
     {
         public readonly string Name = "Alaric";
@@ -7,6 +13,7 @@
         public int Strength { get; set; }
         public float MaxHp { get; set; }
         public float CurrentHp { get; set; }
+        public Location CurrentLocation { get; set; }
         public int Respawns { get; set; }
         public bool IsDead { get; set; }
 
@@ -19,6 +26,7 @@
             CurrentHp = MaxHp;
             Respawns = 3;
             IsDead = false;
+            CurrentLocation = Location.Town;
         }
 
         // METHODS
