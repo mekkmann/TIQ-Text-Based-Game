@@ -4,7 +4,20 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            PrintTitle();
+
+            // to keep console open
+            Console.ReadLine();
+        }
+
+        static void PrintTitle()
+        {
+            string[] fileLines = File.ReadAllLines("title.txt");
+
+            foreach (string line in fileLines)
+            {
+                Console.WriteLine(line);
+            }
         }
     }
 }
