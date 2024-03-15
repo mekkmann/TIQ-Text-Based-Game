@@ -2,18 +2,25 @@
 {
     static class TextHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static void PrintTextFile(string path, bool letterByLetter)
         {
             string[] fileLines = File.ReadAllLines(path);
 
             if (letterByLetter)
             {
+                //foreach (string line in fileLines)
+                //{
+                //    PrintStringCharByChar(line);
+                //    // for build
+                //    //Thread.Sleep(500);
+                //    Console.WriteLine();
+                //}
                 foreach (string line in fileLines)
                 {
-                    PrintStringCharByChar(line);
-                    // for build
-                    //Thread.Sleep(500);
-                    Console.WriteLine();
+                    Console.WriteLine(line);
                 }
             }
             else
@@ -38,6 +45,14 @@
                 //for build
                 //Thread.Sleep(25);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void ChangeForegroundColor(ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
         }
     }
 }

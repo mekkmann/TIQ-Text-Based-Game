@@ -10,7 +10,9 @@
 
     internal class GamePath
     {
-        public string Name { get; set; }
+        public GameManager GameManagerRef { get; private set; }
+        public string PathStartMessage { get; set; }
+        public string PathCompletionMessage { get; set; }
         public PathDifficulty Difficulty { get; set; }
         public int PathLength { get; set; }
         public List<PathStep> PathSteps { get; set; }
@@ -20,11 +22,13 @@
         public float XpFromMobsOnPath { get; set; }
 
         // CONSTRUCTORS
-        public GamePath(string name, int pathLength, Player player, PathDifficulty difficulty)
+        public GamePath(string pathStartMessage, string pathCompletionMessage, int pathLength, Player player, PathDifficulty difficulty, GameManager gameManager)
         {
+            GameManagerRef = gameManager;
             Random random = new();
 
-            Name = name;
+            PathStartMessage = pathStartMessage;
+            PathCompletionMessage = pathCompletionMessage;
             PathLength = pathLength;
             PathSteps = [];
             for (int i = 0; i < pathLength; i++)
@@ -81,7 +85,7 @@
         {
             PlayerRef.CurrentLocation = Location.Path;
 
-            Console.WriteLine($"This time, I shall venture down {Name}");
+            Console.WriteLine(PathStartMessage);
             Random random = new();
             Thread.Sleep(random.Next(500, 1500));
             foreach (PathStep step in PathSteps)
@@ -95,12 +99,15 @@
                         PlayerRef.SpeakAboutEnvironment();
                         break;
                     case PathStepType.MobFight:
+                        TextHelper.ChangeForegroundColor(ConsoleColor.DarkYellow);
                         Console.WriteLine("*should be a mob fight*");
                         break;
                     case PathStepType.BossFight:
+                        TextHelper.ChangeForegroundColor(ConsoleColor.DarkRed);
                         Console.WriteLine("*should be a boss fight*");
                         break;
                 }
+                TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
                 Thread.Sleep(random.Next(500, 1500));
             }
             PathCompleted();
@@ -111,7 +118,9 @@
         /// </summary>
         private void PathCompleted()
         {
-            Console.WriteLine($"{Name} completed, {XpOnCompletion + XpFromMobsOnPath} XP gained.");
+            float totalXpGained = XpOnCompletion + XpFromMobsOnPath;
+            Console.WriteLine($"{PathCompletionMessage}, {totalXpGained} XP gained.");
+            PlayerRef.IncreaseXP(totalXpGained);
             TeleportToTown();
         }
 
@@ -122,15 +131,17 @@
         {
             if (!PlayerRef.IsDead)
             {
-                Console.WriteLine("Teleporting back to town...");
+                Console.WriteLine("Teleporting back to town...\n");
             }
             else
             {
                 Console.WriteLine("You've died to [enemyName], teleporting back to town...");
-                Console.WriteLine("You've lost [X] XP and [lootName] in the temporal twist...");
+                Console.WriteLine("You've lost [X] XP and [lootName] in the temporal twist...\n");
+
             }
 
-            PlayerRef.CurrentLocation = Location.Town;
+            GameManagerRef.ShowTownOptions();
+            Console.WriteLine();
         }
     }
 }
