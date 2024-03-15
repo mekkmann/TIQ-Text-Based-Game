@@ -34,12 +34,13 @@
             // instantiate Tutorial Path
             GeneratePath(PathDifficulty.Easy);
             CurrentPath?.Start();
+        }
 
-            while (IsGameRunning)
+        public static void HandleInputBuffering()
+        {
+            while (Console.KeyAvailable)
             {
-                ShowTownOptions();
-                // to keep console open
-                Console.ReadLine();
+                Console.ReadKey(intercept: true);
             }
         }
 
@@ -56,6 +57,8 @@
                 Player.SetCurrentHpToMax();
             }
 
+            HandleInputBuffering();
+
             Console.Write("\nDo you want to start another (p)ath or see your (s)tats?: ");
             ConsoleKeyInfo key = Console.ReadKey();
             bool validInput = false;
@@ -65,7 +68,6 @@
                 Console.Write("\nNo choice was made, please try again: ");
                 key = Console.ReadKey();
                 if (key.Key == ConsoleKey.S || key.Key == ConsoleKey.P) validInput = true;
-
             }
 
             if (key.Key == ConsoleKey.S)
