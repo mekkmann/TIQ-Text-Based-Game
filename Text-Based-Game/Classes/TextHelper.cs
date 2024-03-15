@@ -46,6 +46,22 @@
                 //Thread.Sleep(25);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void PrintTextInColor(string line, ConsoleColor color, bool newLine = true)
+        {
+            ChangeForegroundColor(color);
+            if (newLine)
+            {
+                Console.WriteLine(line);
+            }
+            else
+            {
+                Console.Write(line);
+            }
+            ChangeForegroundColor(ConsoleColor.Gray);
+        }
 
         /// <summary>
         /// 

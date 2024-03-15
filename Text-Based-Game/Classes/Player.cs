@@ -14,6 +14,7 @@
         public float XpToLevelUp = 987;
         public float CurrentXP = 0;
         public int AvailableSkillpoints = 0;
+        public int SkillPointsPerLevel = 1;
         public int Vitality { get; set; }
         public int Strength { get; set; }
         public float MaxHp { get; set; }
@@ -137,8 +138,11 @@
             CurrentLevel++;
             CurrentXP -= XpToLevelUp;
             XpToLevelUp *= 1.11f;
-            AvailableSkillpoints += 2;
-            Console.WriteLine($"Congratulations, you've reached lvl {CurrentLevel}. 2 new skillpoints available.");
+            AvailableSkillpoints += SkillPointsPerLevel;
+            Console.Write("Congratulations, ");
+            TextHelper.PrintTextInColor($"you've reached lvl {CurrentLevel}", ConsoleColor.Blue, false);
+            Console.Write($"! {SkillPointsPerLevel} new skill {(SkillPointsPerLevel == 1 ? "point" : "points")} available.");
+            Console.WriteLine();
         }
         /// <summary>
         /// 

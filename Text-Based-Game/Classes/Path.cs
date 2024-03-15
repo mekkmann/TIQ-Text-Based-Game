@@ -61,7 +61,7 @@
             switch (Difficulty)
             {
                 case PathDifficulty.Easy:
-                    XpOnCompletion = 100f;
+                    XpOnCompletion = 1000f;
                     break;
                 case PathDifficulty.Medium:
                     XpOnCompletion = 200f;
@@ -99,15 +99,12 @@
                         PlayerRef.SpeakAboutEnvironment();
                         break;
                     case PathStepType.MobFight:
-                        TextHelper.ChangeForegroundColor(ConsoleColor.DarkYellow);
-                        Console.WriteLine("*should be a mob fight*");
+                        TextHelper.PrintTextInColor("*should be a mob fight*", ConsoleColor.DarkYellow, true);
                         break;
                     case PathStepType.BossFight:
-                        TextHelper.ChangeForegroundColor(ConsoleColor.DarkRed);
-                        Console.WriteLine("*should be a boss fight*");
+                        TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
                         break;
                 }
-                TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
                 Thread.Sleep(random.Next(500, 1500));
             }
             PathCompleted();
@@ -119,7 +116,9 @@
         private void PathCompleted()
         {
             float totalXpGained = XpOnCompletion + XpFromMobsOnPath;
-            Console.WriteLine($"{PathCompletionMessage}, {totalXpGained} XP gained.");
+            Console.Write($"{PathCompletionMessage}, ");
+            TextHelper.PrintTextInColor($"{totalXpGained} XP gained.", ConsoleColor.Blue, false);
+            Console.WriteLine();
             PlayerRef.IncreaseXP(totalXpGained);
             TeleportToTown();
         }
