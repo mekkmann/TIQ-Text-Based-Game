@@ -35,8 +35,9 @@
         /// <summary>
         /// Prints a string one character at a time
         /// </summary>
-        public static void PrintStringCharByChar(string line)
+        public static void PrintStringCharByChar(string line, ConsoleColor color = ConsoleColor.Gray)
         {
+            ChangeForegroundColor(color);
             foreach (char c in line)
             {
                 Console.Write(c);
@@ -45,6 +46,7 @@
                 //for build
                 //Thread.Sleep(25);
             }
+            ChangeForegroundColor(ConsoleColor.Gray);
         }
         /// <summary>
         /// 
@@ -69,6 +71,26 @@
         public static void ChangeForegroundColor(ConsoleColor color)
         {
             Console.ForegroundColor = color;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void LineSpacing(int lines = 1)
+        {
+            if (lines < 1)
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                string newLines = "";
+                for (int i = 0; i < lines; i++)
+                {
+                    newLines += "\n";
+                }
+                Console.WriteLine(newLines);
+            }
         }
     }
 }

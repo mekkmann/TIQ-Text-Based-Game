@@ -38,7 +38,7 @@
         public void SimulateCombat(Enemy enemy)
         {
             Random random = new();
-            TextHelper.ChangeForegroundColor(ConsoleColor.DarkYellow);
+            TextHelper.ChangeForegroundColor(ConsoleColor.Yellow);
             Console.WriteLine($"\nYou've encountered {enemy.Name}");
             Thread.Sleep(500);
             do
@@ -76,7 +76,7 @@
             else
             {
                 Player.IsDead = true;
-                CurrentPath?.TeleportToTown();
+                CurrentPath?.TeleportToTown(enemy.Name);
             }
             TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
         }
@@ -100,7 +100,7 @@
             if (Player.CurrentLocation != Location.Town)
             {
                 Random random = new();
-                TextHelper.PrintStringCharByChar(ReturnToTownMessages[random.Next(ReturnToTownMessages.Length)]);
+                TextHelper.PrintStringCharByChar(ReturnToTownMessages[random.Next(ReturnToTownMessages.Length)], ConsoleColor.White);
                 Player.CurrentLocation = Location.Town;
                 Player.SetCurrentHpToMax();
             }
@@ -138,13 +138,13 @@
                 switch (key.Key)
                 {
                     case ConsoleKey.E:
-                        GeneratePath(PathDifficulty.Easy);
+                        CurrentPath = GeneratePath(PathDifficulty.Easy);
                         break;
                     case ConsoleKey.M:
-                        GeneratePath(PathDifficulty.Medium);
+                        CurrentPath = GeneratePath(PathDifficulty.Medium);
                         break;
                     case ConsoleKey.H:
-                        GeneratePath(PathDifficulty.Hard);
+                        CurrentPath = GeneratePath(PathDifficulty.Hard);
                         break;
                 }
                 Console.WriteLine("\n");

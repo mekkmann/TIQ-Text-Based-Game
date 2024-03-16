@@ -85,7 +85,8 @@
         {
             PlayerRef.CurrentLocation = Location.Path;
 
-            Console.WriteLine(PathStartMessage);
+            TextHelper.PrintStringCharByChar(PathStartMessage, ConsoleColor.White);
+            TextHelper.LineSpacing(0);
             Random random = new();
             Thread.Sleep(random.Next(500, 1500));
             foreach (PathStep step in PathSteps)
@@ -93,7 +94,7 @@
                 switch (step.Type)
                 {
                     case PathStepType.Walking:
-                        Console.WriteLine("*walking*");
+                        TextHelper.PrintTextInColor("*walking*", ConsoleColor.DarkGray);
                         break;
                     case PathStepType.PlayerTalk:
                         PlayerRef.SpeakAboutEnvironment();
@@ -149,11 +150,15 @@
         {
             if (!PlayerRef.IsDead)
             {
-                PlayerRef.IncreaseXP(XpFromMobsOnPath);
                 Console.Write("Teleporting back to town... ");
                 if (!IsCompleted)
                 {
+                    PlayerRef.IncreaseXP(XpFromMobsOnPath);
                     TextHelper.PrintTextInColor($"{XpFromMobsOnPath} XP gained.\n\n", ConsoleColor.Blue, false);
+                }
+                else
+                {
+                    Console.WriteLine("\n");
                 }
             }
             else

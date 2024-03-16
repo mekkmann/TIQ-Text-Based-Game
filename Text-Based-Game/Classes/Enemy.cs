@@ -39,9 +39,9 @@
             XpDropped = BaseXP * StatMultiplier;
 
             // testing
-            MinDamage = 4;
-            MaxDamage = 10;
-            DodgeChance = 0.25f;
+            MinDamage = (int)(2 * StatMultiplier);
+            MaxDamage = (int)(6 * StatMultiplier);
+            DodgeChance = 0.125f;
 
         }
 

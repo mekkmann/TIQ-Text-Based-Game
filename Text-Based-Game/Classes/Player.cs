@@ -11,7 +11,7 @@
         public GameManager GameManagerRef { get; private set; }
         public readonly string Name = "Alaric";
         public int CurrentLevel = 1;
-        public float XpToLevelUp = 987;
+        public float XpToLevelUp = 200;
         public float CurrentXP = 0;
         public int AvailableSkillpoints = 0;
         public int SkillPointsPerLevel = 1;
@@ -195,7 +195,7 @@
         /// </summary>
         public void SpeakAboutEnvironment()
         {
-            TextHelper.PrintStringCharByChar("Hon hon hon");
+            TextHelper.PrintStringCharByChar("Hon hon hon", ConsoleColor.White);
             Console.WriteLine();
         }
     }
