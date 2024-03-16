@@ -6,9 +6,19 @@
         Path
     }
 
+    enum Stat
+    {
+        Vitality,
+        Strength
+    }
+
     internal class Player
     {
+        const string EnvironmentObservationsPath = "Content/environmentObservations.txt";
         public GameManager GameManagerRef { get; private set; }
+        public string[] EnvironmentObservations { get; private set; }
+        public Weapon EquippedWeapon = new("Fists", 1, 2, 1, 1, 0, 0);
+        public List<Weapon> WeaponsInBag = [];
         public readonly string Name = "Alaric";
         public int CurrentLevel = 1;
         public float XpToLevelUp = 200;
@@ -34,18 +44,89 @@
             IsDead = false;
             CurrentLocation = Location.Town;
             GameManagerRef = gameManagerRef;
+            WeaponsInBag.Add(new("Rusted Sword Hilt", 2, 4, 1, 2, 10, 10));
+            WeaponsInBag.Add(new("Jawbone", 6, 10, 1, 1, 2, 2));
+            WeaponsInBag.Add(new("Unga-Bunga", 30, 50, 0, 1, 5, 15));
+            EquipWeapon(WeaponsInBag[0]);
+            EnvironmentObservations = File.ReadAllLines(EnvironmentObservationsPath);
         }
 
         // METHODS
 
+        public void ChangeEquipment()
+        {
+            Console.WriteLine("Weapons:");
+            for (var i = 0; i < WeaponsInBag.Count; i++)
+            {
+                Weapon temp = WeaponsInBag[i];
+                Console.WriteLine($"{i + 1}. {temp.Name}");
+                Console.WriteLine($"    Damage: {temp.MinDamage} - {temp.MaxDamage}");
+                if (temp.MinAttacksPerTurn == temp.MaxAttacksPerTurn)
+                {
+                    Console.WriteLine($"    Attacks per turn: {temp.MinAttacksPerTurn}");
+                }
+                else
+                {
+                    Console.WriteLine($"    Attacks per turn: {temp.MinAttacksPerTurn} - {temp.MaxAttacksPerTurn}");
+                }
+                Console.WriteLine($"    Vitality Boost: {temp.VitalityBonus}");
+                Console.WriteLine($"    Strength Boost: {temp.StrengthBonus}");
+            }
+            Console.Write("Equip weapon by pressing the corresponding number or (r)eturn to previous selection (Please press enter as well): ");
+
+            bool validInput = false;
+            do
+            {
+                string input = Console.ReadLine();
+                bool inputAsInt = Int32.TryParse(input, out int valueAsInt);
+                if (input.ToLower() == "r" || valueAsInt == 1 || valueAsInt == 2 || valueAsInt == 3)
+                {
+                    validInput = true;
+                    if (input == "r")
+                    {
+                        GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+                        return;
+                    }
+                    if (valueAsInt == 1)
+                    {
+                        EquipWeapon(WeaponsInBag[0]);
+                    }
+                    else if (valueAsInt == 2)
+                    {
+                        EquipWeapon(WeaponsInBag[1]);
+                    }
+                    else if (valueAsInt == 3)
+                    {
+                        EquipWeapon(WeaponsInBag[2]);
+                    }
+                }
+            } while (!validInput);
+            GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void EquipWeapon(Weapon weapon)
+        {
+            DecreaseStat(Stat.Vitality, EquippedWeapon.VitalityBonus);
+            DecreaseStat(Stat.Strength, EquippedWeapon.StrengthBonus);
+            EquippedWeapon = weapon;
+            IncreaseStat(Stat.Vitality, weapon.VitalityBonus);
+            IncreaseStat(Stat.Strength, weapon.StrengthBonus);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void SetCurrentHpToMax()
         {
             CurrentHp = MaxHp;
         }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
         private int CalculateMaxHP()
         {
             return 20 * Vitality;
@@ -98,6 +179,7 @@
                 GameManagerRef.ShowTownOptions();
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -118,6 +200,41 @@
             }
 
             AvailableSkillpoints--;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void IncreaseStat(Stat stat, int amount)
+        {
+            switch (stat)
+            {
+                case Stat.Vitality:
+                    Vitality += amount;
+                    MaxHp = CalculateMaxHP();
+                    break;
+                case Stat.Strength:
+                    Strength += amount;
+                    break;
+            }
+        }
+
+        public void DecreaseStat(Stat stat, int amount)
+        {
+            switch (stat)
+            {
+                case Stat.Vitality:
+                    Vitality -= amount;
+                    MaxHp = CalculateMaxHP();
+                    if (CurrentHp > MaxHp)
+                    {
+                        SetCurrentHpToMax();
+                    }
+                    break;
+                case Stat.Strength:
+                    Strength -= amount;
+                    break;
+            }
         }
         /// <summary>
         /// 
@@ -195,7 +312,9 @@
         /// </summary>
         public void SpeakAboutEnvironment()
         {
-            TextHelper.PrintStringCharByChar("Hon hon hon", ConsoleColor.White);
+            Random random = new();
+            string randomSentence = EnvironmentObservations[random.Next(EnvironmentObservations.Length)];
+            TextHelper.PrintStringCharByChar(randomSentence, ConsoleColor.White);
             Console.WriteLine();
         }
     }

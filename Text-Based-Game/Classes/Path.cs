@@ -84,6 +84,7 @@
         public void Start()
         {
             PlayerRef.CurrentLocation = Location.Path;
+            Console.WriteLine(PlayerRef.CurrentHp);
 
             TextHelper.PrintStringCharByChar(PathStartMessage, ConsoleColor.White);
             TextHelper.LineSpacing(0);
@@ -103,22 +104,7 @@
                         // GENERATE MOB AND SIMULATE FIGHT
                         Enemy currentEnemy = new(Difficulty);
                         GameManagerRef.SimulateCombat(currentEnemy);
-                        GameManager.HandleInputBuffering();
-                        Console.Write("Do you want to go back to (t)own or (c)ontinue your adventure?: ");
-                        ConsoleKeyInfo key = Console.ReadKey();
-                        bool validInput = false;
-                        if (key.Key == ConsoleKey.T || key.Key == ConsoleKey.C) validInput = true;
-                        while (!validInput)
-                        {
-                            Console.Write("\nNo choice was made, please try again: ");
-                            key = Console.ReadKey();
-                            if (key.Key == ConsoleKey.T || key.Key == ConsoleKey.C) validInput = true;
-                        }
-                        Console.WriteLine();
-                        if (key.Key == ConsoleKey.T)
-                        {
-                            TeleportToTown();
-                        }
+                        ShowOptionsAfterInteractiveEvent();
                         break;
                     case PathStepType.BossFight:
                         TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
@@ -127,6 +113,33 @@
                 Thread.Sleep(random.Next(500, 1500));
             }
             PathCompleted();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ShowOptionsAfterInteractiveEvent()
+        {
+            GameManager.HandleInputBuffering();
+            Console.Write("Do you want to go back to (t)own, change your (e)quipment or (c)ontinue your adventure?: ");
+            ConsoleKeyInfo key = Console.ReadKey();
+            bool validInput = false;
+            if (key.Key == ConsoleKey.T || key.Key == ConsoleKey.C || key.Key == ConsoleKey.E) validInput = true;
+            while (!validInput)
+            {
+                Console.Write("\nNo choice was made, please try again: ");
+                key = Console.ReadKey();
+                if (key.Key == ConsoleKey.T || key.Key == ConsoleKey.C || key.Key == ConsoleKey.E) validInput = true;
+            }
+            TextHelper.LineSpacing();
+            if (key.Key == ConsoleKey.T)
+            {
+                TeleportToTown();
+            }
+            else if (key.Key == ConsoleKey.E)
+            {
+                PlayerRef.ChangeEquipment();
+            }
         }
 
         /// <summary>

@@ -7,7 +7,7 @@
         const string pathCompletionMessagesPath = "Content/pathCompletionMessages.txt";
 
         Player Player { get; set; }
-        GamePath? CurrentPath { get; set; }
+        public GamePath? CurrentPath { get; set; }
         int MaxPathLength = 20;
         int MinPathLength = 10;
         string[] ReturnToTownMessages;
