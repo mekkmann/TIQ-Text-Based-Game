@@ -99,7 +99,24 @@
                         PlayerRef.SpeakAboutEnvironment();
                         break;
                     case PathStepType.MobFight:
-                        TextHelper.PrintTextInColor("*should be a mob fight*", ConsoleColor.DarkYellow, true);
+                        // GENERATE MOB AND SIMULATE FIGHT
+                        Enemy currentEnemy = new(Difficulty);
+                        GameManagerRef.SimulateCombat(currentEnemy);
+                        Console.Write("Do you want to go back to (t)own or (c)ontinue your adventure?: ");
+                        ConsoleKeyInfo key = Console.ReadKey();
+                        bool validInput = false;
+                        if (key.Key == ConsoleKey.T || key.Key == ConsoleKey.C) validInput = true;
+                        while (!validInput)
+                        {
+                            Console.Write("\nNo choice was made, please try again: ");
+                            key = Console.ReadKey();
+                            if (key.Key == ConsoleKey.T || key.Key == ConsoleKey.C) validInput = true;
+                        }
+                        Console.WriteLine();
+                        if (key.Key == ConsoleKey.T)
+                        {
+                            TeleportToTown();
+                        }
                         break;
                     case PathStepType.BossFight:
                         TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
@@ -126,17 +143,18 @@
         /// <summary>
         /// 
         /// </summary>
-        public void TeleportToTown()
+        public void TeleportToTown(string enemyName = "")
         {
             if (!PlayerRef.IsDead)
             {
-                Console.WriteLine("Teleporting back to town...\n");
+                PlayerRef.IncreaseXP(XpFromMobsOnPath);
+                Console.Write("Teleporting back to town... ");
+                TextHelper.PrintTextInColor($"{XpFromMobsOnPath} XP gained.\n\n", ConsoleColor.Blue, false);
             }
             else
             {
-                Console.WriteLine("You've died to [enemyName], teleporting back to town...");
+                Console.WriteLine($"You've died to {enemyName}, teleporting back to town...");
                 Console.WriteLine("You've lost [X] XP and [lootName] in the temporal twist...\n");
-
             }
 
             GameManagerRef.ShowTownOptions();

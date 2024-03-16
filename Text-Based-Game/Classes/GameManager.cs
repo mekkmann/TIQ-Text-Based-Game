@@ -10,18 +10,17 @@
         GamePath? CurrentPath { get; set; }
         int MaxPathLength = 20;
         int MinPathLength = 10;
-        bool IsGameRunning = true;
-        string[] returnToTownMessages;
-        string[] allPathStartMessages;
-        string[] allPathCompletionMessages;
+        string[] ReturnToTownMessages;
+        string[] PathStartMessages;
+        string[] PathCompletionMessages;
 
         // CONSTRUCTORS
         public GameManager()
         {
             Player = new(this);
-            returnToTownMessages = File.ReadAllLines(returnToTownMessagesPath);
-            allPathStartMessages = File.ReadAllLines(pathStartMessagesPath);
-            allPathCompletionMessages = File.ReadAllLines(pathCompletionMessagesPath);
+            ReturnToTownMessages = File.ReadAllLines(returnToTownMessagesPath);
+            PathStartMessages = File.ReadAllLines(pathStartMessagesPath);
+            PathCompletionMessages = File.ReadAllLines(pathCompletionMessagesPath);
         }
 
         // METHODS
@@ -32,10 +31,58 @@
         public void StartGame()
         {
             // instantiate Tutorial Path
-            GeneratePath(PathDifficulty.Easy);
+            CurrentPath = GeneratePath(PathDifficulty.Easy);
             CurrentPath?.Start();
         }
 
+        public void SimulateCombat(Enemy enemy)
+        {
+            Random random = new();
+
+            Console.WriteLine($"You've encountered {enemy.Name}");
+            Thread.Sleep(500);
+            do
+            {
+                if (random.NextDouble() < enemy.DodgeChance)
+                {
+                    Console.WriteLine($"The {enemy.Name} gracefully evades your attack");
+                }
+                else
+                {
+                    int playerDamage = random.Next(5, 11);
+                    Console.WriteLine($"You attack {enemy.Name} and do {playerDamage} dmg");
+                    enemy.HP -= playerDamage;
+                }
+                Thread.Sleep(500);
+
+
+
+                if (enemy.HP > 0)
+                {
+                    int enemyDamage = random.Next(enemy.MinDamage, enemy.MaxDamage + 1);
+                    Player.TakeDamage(enemyDamage);
+                    Console.WriteLine($"{enemy.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp} HP left");
+                }
+                Thread.Sleep(500);
+
+            } while (enemy.HP > 0 && Player.CurrentHp > 0);
+
+            if (enemy.HP <= 0)
+            {
+                CurrentPath.XpFromMobsOnPath += enemy.XpDropped;
+                Console.WriteLine($"The {enemy.Name} collapses, you've gained {enemy.XpDropped} XP!\n");
+
+            }
+            else
+            {
+                Player.IsDead = true;
+                CurrentPath?.TeleportToTown();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static void HandleInputBuffering()
         {
             while (Console.KeyAvailable)
@@ -52,7 +99,7 @@
             if (Player.CurrentLocation != Location.Town)
             {
                 Random random = new();
-                TextHelper.PrintStringCharByChar(returnToTownMessages[random.Next(returnToTownMessages.Length)]);
+                TextHelper.PrintStringCharByChar(ReturnToTownMessages[random.Next(ReturnToTownMessages.Length)]);
                 Player.CurrentLocation = Location.Town;
                 Player.SetCurrentHpToMax();
             }
@@ -108,12 +155,12 @@
         /// <summary>
         /// 
         /// </summary>
-        public void GeneratePath(PathDifficulty chosenDifficulty)
+        public GamePath GeneratePath(PathDifficulty chosenDifficulty)
         {
             Random random = new();
 
-            string randomPathStartMessage = allPathStartMessages[random.Next(allPathStartMessages.Length)];
-            string randomPathCompletionMessage = allPathCompletionMessages[random.Next(allPathCompletionMessages.Length)];
+            string randomPathStartMessage = PathStartMessages[random.Next(PathStartMessages.Length)];
+            string randomPathCompletionMessage = PathCompletionMessages[random.Next(PathCompletionMessages.Length)];
 
             int randomPathLength = random.Next(MinPathLength, MaxPathLength + 1);
 
@@ -126,7 +173,7 @@
                 this
                 );
 
-            CurrentPath = newPath;
+            return newPath;
         }
     }
 }
