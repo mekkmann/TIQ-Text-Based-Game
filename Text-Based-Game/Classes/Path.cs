@@ -61,7 +61,7 @@
             switch (Difficulty)
             {
                 case PathDifficulty.Easy:
-                    XpOnCompletion = 1000f;
+                    XpOnCompletion = 100f;
                     break;
                 case PathDifficulty.Medium:
                     XpOnCompletion = 200f;
@@ -102,6 +102,7 @@
                         // GENERATE MOB AND SIMULATE FIGHT
                         Enemy currentEnemy = new(Difficulty);
                         GameManagerRef.SimulateCombat(currentEnemy);
+                        GameManager.HandleInputBuffering();
                         Console.Write("Do you want to go back to (t)own or (c)ontinue your adventure?: ");
                         ConsoleKeyInfo key = Console.ReadKey();
                         bool validInput = false;
@@ -132,6 +133,7 @@
         /// </summary>
         private void PathCompleted()
         {
+            IsCompleted = true;
             float totalXpGained = XpOnCompletion + XpFromMobsOnPath;
             Console.Write($"{PathCompletionMessage}, ");
             TextHelper.PrintTextInColor($"{totalXpGained} XP gained.", ConsoleColor.Blue, false);
@@ -149,12 +151,17 @@
             {
                 PlayerRef.IncreaseXP(XpFromMobsOnPath);
                 Console.Write("Teleporting back to town... ");
-                TextHelper.PrintTextInColor($"{XpFromMobsOnPath} XP gained.\n\n", ConsoleColor.Blue, false);
+                if (!IsCompleted)
+                {
+                    TextHelper.PrintTextInColor($"{XpFromMobsOnPath} XP gained.\n\n", ConsoleColor.Blue, false);
+                }
             }
             else
             {
                 Console.WriteLine($"You've died to {enemyName}, teleporting back to town...");
-                Console.WriteLine("You've lost [X] XP and [lootName] in the temporal twist...\n");
+                float xpLost = XpFromMobsOnPath * 0.5f;
+                PlayerRef.IncreaseXP(XpFromMobsOnPath - xpLost);
+                TextHelper.PrintTextInColor($"You've lost {xpLost} XP in the temporal twist...\n", ConsoleColor.DarkRed);
             }
 
             GameManagerRef.ShowTownOptions();

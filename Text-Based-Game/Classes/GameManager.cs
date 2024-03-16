@@ -38,8 +38,8 @@
         public void SimulateCombat(Enemy enemy)
         {
             Random random = new();
-
-            Console.WriteLine($"You've encountered {enemy.Name}");
+            TextHelper.ChangeForegroundColor(ConsoleColor.DarkYellow);
+            Console.WriteLine($"\nYou've encountered {enemy.Name}");
             Thread.Sleep(500);
             do
             {
@@ -70,14 +70,15 @@
             if (enemy.HP <= 0)
             {
                 CurrentPath.XpFromMobsOnPath += enemy.XpDropped;
-                Console.WriteLine($"The {enemy.Name} collapses, you've gained {enemy.XpDropped} XP!\n");
-
+                Console.Write($"The {enemy.Name} collapses, ");
+                TextHelper.PrintTextInColor($"you've gained {enemy.XpDropped} XP!\n\n", ConsoleColor.Blue, false);
             }
             else
             {
                 Player.IsDead = true;
                 CurrentPath?.TeleportToTown();
             }
+            TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
         }
 
         /// <summary>

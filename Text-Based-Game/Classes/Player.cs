@@ -130,6 +130,18 @@
                 LevelUp();
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DecreaseXP(float xpLost)
+        {
+            CurrentXP -= xpLost;
+            if (CurrentXP < 0)
+            {
+                CurrentXP = 0;
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
