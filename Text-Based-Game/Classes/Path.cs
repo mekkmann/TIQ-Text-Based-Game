@@ -149,7 +149,7 @@
         {
             IsCompleted = true;
             float totalXpGained = XpOnCompletion + XpFromMobsOnPath;
-            Console.Write($"{PathCompletionMessage}, ");
+            TextHelper.PrintTextInColor($"{PathCompletionMessage}, ", ConsoleColor.White, false);
             TextHelper.PrintTextInColor($"{totalXpGained} XP gained.", ConsoleColor.Blue, false);
             Console.WriteLine();
             PlayerRef.IncreaseXP(totalXpGained);

@@ -49,9 +49,20 @@
                 }
                 else
                 {
-                    int playerDamage = random.Next(5, 11);
-                    Console.WriteLine($"You attack {enemy.Name} and do {playerDamage} dmg");
-                    enemy.HP -= playerDamage;
+                    int[] playerAttack = Player.CalculateAttack();
+                    if (playerAttack[0] == 0)
+                    {
+                        Console.WriteLine($"You attack {enemy.Name} but trip and whiff entirely");
+                    }
+                    else if (playerAttack[0] == 1)
+                    {
+                        Console.WriteLine($"You attack {enemy.Name} and do {playerAttack[1]} dmg");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"You attack {enemy.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg");
+                    }
+                    enemy.HP -= playerAttack[1];
                 }
                 Thread.Sleep(500);
 

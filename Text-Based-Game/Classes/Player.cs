@@ -53,6 +53,28 @@
 
         // METHODS
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public int[] CalculateAttack()
+        {
+            Random random = new();
+
+            int numberOfAttacks = random.Next(EquippedWeapon.MinAttacksPerTurn, EquippedWeapon.MaxAttacksPerTurn + 1);
+
+            int totalDamage = 0;
+            for (int i = 0; i < numberOfAttacks; i++)
+            {
+                totalDamage += random.Next(EquippedWeapon.MinDamage, EquippedWeapon.MaxDamage + 1);
+            }
+
+
+            return [numberOfAttacks, totalDamage];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void ChangeEquipment()
         {
             Console.WriteLine("Weapons:");
