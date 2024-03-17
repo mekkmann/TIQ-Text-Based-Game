@@ -36,7 +36,7 @@
         // CONSTRUCTORS
         public Player(GameManager gameManagerRef)
         {
-            Vitality = 5;
+            Vitality = 100;
             Strength = 5;
             MaxHp = CalculateMaxHP();
             CurrentHp = MaxHp;
@@ -286,6 +286,14 @@
         public void LevelUp()
         {
             CurrentLevel++;
+
+            // TESTING
+            if (CurrentLevel == 5)
+            {
+                GameManagerRef.CanTakeFinalPath = true;
+            }
+            /////////////////////
+
             CurrentXP -= XpToLevelUp;
             XpToLevelUp *= 1.11f;
             AvailableSkillpoints += SkillPointsPerLevel;
@@ -293,6 +301,10 @@
             TextHelper.PrintTextInColor($"you've reached lvl {CurrentLevel}", ConsoleColor.Blue, false);
             Console.Write($"! {SkillPointsPerLevel} new skill {(SkillPointsPerLevel == 1 ? "point" : "points")} available.");
             Console.WriteLine();
+            if (CurrentXP >= XpToLevelUp)
+            {
+                LevelUp();
+            }
         }
         /// <summary>
         /// 

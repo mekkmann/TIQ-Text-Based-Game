@@ -7,12 +7,13 @@
         const string pathCompletionMessagesPath = "Content/pathCompletionMessages.txt";
 
         Player Player { get; set; }
+        public bool CanTakeFinalPath = false;
         public GamePath? CurrentPath { get; set; }
-        int MaxPathLength = 20;
-        int MinPathLength = 10;
-        string[] ReturnToTownMessages;
-        string[] PathStartMessages;
-        string[] PathCompletionMessages;
+        private int MaxPathLength = 20;
+        private int MinPathLength = 10;
+        private string[] ReturnToTownMessages;
+        private string[] PathStartMessages;
+        private string[] PathCompletionMessages;
 
         // CONSTRUCTORS
         public GameManager()
@@ -108,6 +109,7 @@
         /// </summary>
         public void ShowTownOptions()
         {
+            Player.IsDead = false;
             if (Player.CurrentLocation != Location.Town)
             {
                 Random random = new();
@@ -135,29 +137,62 @@
             }
             else if (key.Key == ConsoleKey.P)
             {
-                Console.Write("\nDo you want to venture down an (e)asy, (m)edium or (h)ard path?: ");
-                key = Console.ReadKey();
-                validInput = false;
-                if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.M || key.Key == ConsoleKey.H) validInput = true;
-                while (!validInput)
+                if (!CanTakeFinalPath)
                 {
-                    Console.Write("\nNo choice was made, please try again: ");
+                    Console.Write("\nDo you want to venture down the (e)asy, (m)edium or (h)ard path?: ");
                     key = Console.ReadKey();
+                    validInput = false;
                     if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.M || key.Key == ConsoleKey.H) validInput = true;
+                    while (!validInput)
+                    {
+                        Console.Write("\nNo choice was made, please try again: ");
+                        key = Console.ReadKey();
+                        if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.M || key.Key == ConsoleKey.H) validInput = true;
+                    }
+
+                    switch (key.Key)
+                    {
+                        case ConsoleKey.E:
+                            CurrentPath = GeneratePath(PathDifficulty.Easy);
+                            break;
+                        case ConsoleKey.M:
+                            CurrentPath = GeneratePath(PathDifficulty.Medium);
+                            break;
+                        case ConsoleKey.H:
+                            CurrentPath = GeneratePath(PathDifficulty.Hard);
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.Write("\nDo you want to venture down the (e)asy, (m)edium, (h)ard or (f)inal path?: ");
+                    key = Console.ReadKey();
+                    validInput = false;
+                    if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.M || key.Key == ConsoleKey.H || key.Key == ConsoleKey.F) validInput = true;
+                    while (!validInput)
+                    {
+                        Console.Write("\nNo choice was made, please try again: ");
+                        key = Console.ReadKey();
+                        if (key.Key == ConsoleKey.E || key.Key == ConsoleKey.M || key.Key == ConsoleKey.H || key.Key == ConsoleKey.F) validInput = true;
+                    }
+
+                    switch (key.Key)
+                    {
+                        case ConsoleKey.E:
+                            CurrentPath = GeneratePath(PathDifficulty.Easy);
+                            break;
+                        case ConsoleKey.M:
+                            CurrentPath = GeneratePath(PathDifficulty.Medium);
+                            break;
+                        case ConsoleKey.H:
+                            CurrentPath = GeneratePath(PathDifficulty.Hard);
+                            break;
+                        case ConsoleKey.F:
+                            CurrentPath = GeneratePath(PathDifficulty.Final);
+                            break;
+                    }
                 }
 
-                switch (key.Key)
-                {
-                    case ConsoleKey.E:
-                        CurrentPath = GeneratePath(PathDifficulty.Easy);
-                        break;
-                    case ConsoleKey.M:
-                        CurrentPath = GeneratePath(PathDifficulty.Medium);
-                        break;
-                    case ConsoleKey.H:
-                        CurrentPath = GeneratePath(PathDifficulty.Hard);
-                        break;
-                }
                 Console.WriteLine("\n");
                 CurrentPath?.Start();
                 return;
