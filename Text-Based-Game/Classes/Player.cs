@@ -47,7 +47,6 @@
             WeaponsInBag.Add(new("Rusted Sword Hilt", 2, 4, 1, 2, 10, 10));
             WeaponsInBag.Add(new("Jawbone", 6, 10, 1, 1, 2, 2));
             WeaponsInBag.Add(new("Unga-Bunga", 30, 50, 0, 1, 5, 15));
-            EquipWeapon(WeaponsInBag[0]);
             EnvironmentObservations = File.ReadAllLines(EnvironmentObservationsPath);
         }
 
@@ -65,7 +64,7 @@
             int totalDamage = 0;
             for (int i = 0; i < numberOfAttacks; i++)
             {
-                totalDamage += random.Next(EquippedWeapon.MinDamage, EquippedWeapon.MaxDamage + 1);
+                totalDamage += random.Next(EquippedWeapon.MinDamage + Strength, EquippedWeapon.MaxDamage + Strength + 1);
             }
 
 
