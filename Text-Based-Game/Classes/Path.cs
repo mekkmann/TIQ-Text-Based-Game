@@ -10,6 +10,7 @@
 
     internal class GamePath
     {
+        const string OutroPath = "Content/outro.txt";
         public GameManager GameManagerRef { get; private set; }
         public string PathStartMessage { get; set; }
         public string PathCompletionMessage { get; set; }
@@ -242,14 +243,14 @@
         /// </summary>
         private void PathCompleted()
         {
-            if (Difficulty == PathDifficulty.Final)
-            {
-                TextHelper.PrintTextInColor("GAME COMPLETED", ConsoleColor.DarkCyan);
-            }
             IsCompleted = true;
             float totalXpGained = XpOnCompletion + XpFromMobsOnPath;
             TextHelper.PrintTextInColor($"{PathCompletionMessage}, ", ConsoleColor.White, false);
             TextHelper.PrintTextInColor($"{totalXpGained} XP gained.", ConsoleColor.Blue, false);
+            if (Difficulty == PathDifficulty.Final)
+            {
+                TextHelper.PrintTextFile(OutroPath, true);
+            }
             Console.WriteLine();
             PlayerRef.IncreaseXP(totalXpGained);
             TeleportToTown();

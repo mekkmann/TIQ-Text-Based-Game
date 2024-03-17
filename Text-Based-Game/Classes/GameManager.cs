@@ -2,9 +2,9 @@
 {
     internal class GameManager
     {
-        const string returnToTownMessagesPath = "Content/returnToTownMessages.txt";
-        const string pathStartMessagesPath = "Content/pathStartMessages.txt";
-        const string pathCompletionMessagesPath = "Content/pathCompletionMessages.txt";
+        const string ReturnToTownMessagesPath = "Content/returnToTownMessages.txt";
+        const string PathStartMessagesPath = "Content/pathStartMessages.txt";
+        const string PathCompletionMessagesPath = "Content/pathCompletionMessages.txt";
 
         Player Player { get; set; }
         public bool CanTakeFinalPath = false;
@@ -19,9 +19,9 @@
         public GameManager()
         {
             Player = new(this);
-            ReturnToTownMessages = File.ReadAllLines(returnToTownMessagesPath);
-            PathStartMessages = File.ReadAllLines(pathStartMessagesPath);
-            PathCompletionMessages = File.ReadAllLines(pathCompletionMessagesPath);
+            ReturnToTownMessages = File.ReadAllLines(ReturnToTownMessagesPath);
+            PathStartMessages = File.ReadAllLines(PathStartMessagesPath);
+            PathCompletionMessages = File.ReadAllLines(PathCompletionMessagesPath);
         }
 
         // METHODS

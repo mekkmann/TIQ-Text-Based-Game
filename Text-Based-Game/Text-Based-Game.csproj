@@ -12,6 +12,7 @@
     <None Remove="Content\bossNames.txt" />
     <None Remove="Content\environmentObservations.txt" />
     <None Remove="Content\mobNames.txt" />
+    <None Remove="Content\outro.txt" />
     <None Remove="Content\pathCompletionMessages.txt" />
     <None Remove="Content\pathStartMessages.txt" />
     <None Remove="Content\returnToTownMessages.txt" />
@@ -30,6 +31,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\mobNames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\outro.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\pathCompletionMessages.txt">

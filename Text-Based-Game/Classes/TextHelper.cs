@@ -11,17 +11,17 @@
 
             if (letterByLetter)
             {
-                //foreach (string line in fileLines)
-                //{
-                //    PrintStringCharByChar(line);
-                //    // for build
-                //    //Thread.Sleep(500);
-                //    Console.WriteLine();
-                //}
                 foreach (string line in fileLines)
                 {
-                    Console.WriteLine(line);
+                    PrintStringCharByChar(line);
+                    // for build
+                    //Thread.Sleep(500);
+                    Console.WriteLine();
                 }
+                //foreach (string line in fileLines)
+                //{
+                //    Console.WriteLine(line);
+                //}
             }
             else
             {
