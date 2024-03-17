@@ -247,12 +247,15 @@
             float totalXpGained = XpOnCompletion + XpFromMobsOnPath;
             TextHelper.PrintTextInColor($"{PathCompletionMessage}, ", ConsoleColor.White, false);
             TextHelper.PrintTextInColor($"{totalXpGained} XP gained.", ConsoleColor.Blue, false);
+            TextHelper.LineSpacing(0);
+            PlayerRef.IncreaseXP(totalXpGained);
+            TextHelper.LineSpacing(0);
             if (Difficulty == PathDifficulty.Final)
             {
+                TextHelper.LineSpacing(0);
                 TextHelper.PrintTextFile(OutroPath, true);
+                TextHelper.LineSpacing();
             }
-            Console.WriteLine();
-            PlayerRef.IncreaseXP(totalXpGained);
             TeleportToTown();
         }
 
