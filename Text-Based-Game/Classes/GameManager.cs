@@ -35,11 +35,11 @@
             CurrentPath?.Start();
         }
 
-        public void SimulateCombat(Enemy enemy)
+        public void SimulateRegularCombat(Enemy enemy)
         {
             Random random = new();
             TextHelper.ChangeForegroundColor(ConsoleColor.Yellow);
-            Console.WriteLine($"\nYou've encountered {enemy.Name}");
+            Console.WriteLine($"\nYou've encountered {enemy.Name}, {enemy.HP} HP");
             Thread.Sleep(500);
             do
             {
@@ -86,6 +86,85 @@
             {
                 Player.IsDead = true;
                 CurrentPath?.TeleportToTown(enemy.Name);
+            }
+            TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
+        }
+
+        public void SimulateBossCombat(Boss boss)
+        {
+            Random random = new();
+
+            TextHelper.ChangeForegroundColor(ConsoleColor.Red);
+            Console.WriteLine($"\nYou've encountered {boss.Name}, {boss.HP} HP");
+            Thread.Sleep(500);
+            do
+            {
+                if (random.NextDouble() < boss.DodgeChance)
+                {
+                    Console.WriteLine($"{boss.Name} gracefully evades your attack");
+                }
+                else
+                {
+                    int[] playerAttack = Player.CalculateAttack();
+                    if (playerAttack[0] == 0)
+                    {
+                        Console.WriteLine($"You attack {boss.Name} but trip and whiff entirely");
+                    }
+                    else if (playerAttack[0] == 1)
+                    {
+                        Console.WriteLine($"You attack {boss.Name} and do {playerAttack[1]} dmg");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"You attack {boss.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg");
+                    }
+                    boss.HP -= playerAttack[1];
+                }
+                Thread.Sleep(500);
+
+                if (boss.HP > 0)
+                {
+                    int enemyDamage = random.Next(boss.MinDamage, boss.MaxDamage + 1);
+                    Player.TakeDamage(enemyDamage);
+                    Console.WriteLine($"{boss.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp} HP left");
+                }
+                Thread.Sleep(500);
+
+            } while (boss.HP > 0 && Player.CurrentHp > 0);
+
+            if (boss.HP <= 0)
+            {
+                CurrentPath.XpFromMobsOnPath += boss.XpDropped;
+                Console.Write($"{boss.Name} collapses, ");
+                TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP!\n\n", ConsoleColor.Blue, false);
+            }
+            else
+            {
+                if (Player.Respawns > 0)
+                {
+                    Console.Write("Would you like to (r)espawn or (t)eleport to town?: ");
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    bool isValidInput = false;
+                    if (key.Key == ConsoleKey.R || key.Key == ConsoleKey.T) isValidInput = true;
+                    while (!isValidInput)
+                    {
+                        Console.Write("\ntry again: ");
+                        key = Console.ReadKey();
+                        if (key.Key == ConsoleKey.R || key.Key == ConsoleKey.T) isValidInput = true;
+                    }
+
+                    if (key.Key == ConsoleKey.R)
+                    {
+                        SimulateBossCombat(boss);
+                    }
+                    else
+                    {
+                        TextHelper.LineSpacing(0);
+                    }
+                }
+
+                Player.IsDead = true;
+                CurrentPath?.TeleportToTown(boss.Name);
             }
             TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
         }

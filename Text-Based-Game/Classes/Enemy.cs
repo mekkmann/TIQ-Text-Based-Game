@@ -34,13 +34,12 @@
                     StatMultiplier = 5.0f;
                     break;
             }
-
             HP = BaseHp * StatMultiplier;
             XpDropped = BaseXP * StatMultiplier;
 
-            // testing
             MinDamage = (int)(2 * StatMultiplier);
             MaxDamage = (int)(6 * StatMultiplier);
+
             DodgeChance = 0.125f;
 
         }

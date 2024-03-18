@@ -199,11 +199,13 @@
                     case PathStepType.MobFight:
                         // GENERATE MOB AND SIMULATE FIGHT
                         Enemy currentEnemy = new(Difficulty);
-                        GameManagerRef.SimulateCombat(currentEnemy);
+                        GameManagerRef.SimulateRegularCombat(currentEnemy);
                         ShowOptionsAfterInteractiveEvent();
                         break;
                     case PathStepType.BossFight:
-                        TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
+                        //TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
+                        Boss currentBoss = new(Difficulty);
+                        GameManagerRef.SimulateBossCombat(currentBoss);
                         break;
                 }
                 Thread.Sleep(random.Next(500, 1500));
