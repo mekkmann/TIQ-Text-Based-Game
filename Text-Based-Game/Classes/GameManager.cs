@@ -31,7 +31,6 @@
         /// </summary>
         public void StartGame()
         {
-            // instantiate Tutorial Path
             CurrentPath = GeneratePath(PathDifficulty.Easy);
             CurrentPath?.Start();
         }
@@ -66,8 +65,6 @@
                     enemy.HP -= playerAttack[1];
                 }
                 Thread.Sleep(500);
-
-
 
                 if (enemy.HP > 0)
                 {

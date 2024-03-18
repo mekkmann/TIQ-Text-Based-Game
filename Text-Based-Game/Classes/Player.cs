@@ -15,6 +15,8 @@
     internal class Player
     {
         const string EnvironmentObservationsPath = "Content/environmentObservations.txt";
+        const int StartingVitality = 100;
+        const int StartingStrength = 5;
         public GameManager GameManagerRef { get; private set; }
         public string[] EnvironmentObservations { get; private set; }
         public Weapon EquippedWeapon = new("Fists", 1, 2, 1, 1, 0, 0);
@@ -23,10 +25,13 @@
         public int CurrentLevel = 1;
         public float XpToLevelUp = 200;
         public float CurrentXP = 0;
+        public int TotalSkillPointsGained = 0;
         public int AvailableSkillpoints = 0;
         public int SkillPointsPerLevel = 1;
         public int Vitality { get; set; }
+        public int VitalitySkillPoints { get; set; }
         public int Strength { get; set; }
+        public int StrengthSkillPoints { get; set; }
         public float MaxHp { get; set; }
         public float CurrentHp { get; set; }
         public Location CurrentLocation { get; set; }
@@ -36,8 +41,8 @@
         // CONSTRUCTORS
         public Player(GameManager gameManagerRef)
         {
-            Vitality = 100;
-            Strength = 5;
+            Vitality = StartingVitality;
+            Strength = StartingStrength;
             MaxHp = CalculateMaxHP();
             CurrentHp = MaxHp;
             Respawns = 3;
@@ -169,15 +174,15 @@
             Console.WriteLine($"Strength: {Strength}");
             if (AvailableSkillpoints > 0)
             {
-                Console.Write("\nWould you like to increase (v)itality or (s)trength, or (r)eturn to your adventure?: ");
+                Console.Write("\nWould you like to increase (v)itality or (s)trength, (e)spec or (r)eturn to your adventure?: ");
                 ConsoleKeyInfo key = Console.ReadKey();
                 bool validInput = false;
-                if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R) validInput = true;
+                if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R || key.Key == ConsoleKey.E) validInput = true;
                 while (!validInput)
                 {
                     Console.Write("\nNo choice was made, please try again: ");
                     key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R) validInput = true;
+                    if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R || key.Key == ConsoleKey.E) validInput = true;
                 }
                 Console.WriteLine("\n");
                 switch (key.Key)
@@ -188,6 +193,10 @@
                     case ConsoleKey.V:
                     case ConsoleKey.S:
                         IncreaseStat(key);
+                        ShowStats();
+                        break;
+                    case ConsoleKey.E:
+                        ResetSkillPoints();
                         ShowStats();
                         break;
                 }
@@ -212,9 +221,11 @@
             {
                 case ConsoleKey.S:
                     Strength++;
+                    StrengthSkillPoints++;
                     break;
                 case ConsoleKey.V:
                     Vitality++;
+                    VitalitySkillPoints++;
                     MaxHp = CalculateMaxHP();
                     CurrentHp = MaxHp;
                     break;
@@ -280,6 +291,20 @@
                 CurrentXP = 0;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ResetSkillPoints()
+        {
+            Vitality -= VitalitySkillPoints;
+            Strength -= StrengthSkillPoints;
+
+            AvailableSkillpoints += VitalitySkillPoints + StrengthSkillPoints;
+
+            VitalitySkillPoints = 0;
+            StrengthSkillPoints = 0;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -297,6 +322,7 @@
             CurrentXP -= XpToLevelUp;
             XpToLevelUp *= 1.11f;
             AvailableSkillpoints += SkillPointsPerLevel;
+            TotalSkillPointsGained += SkillPointsPerLevel;
             Console.Write("Congratulations, ");
             TextHelper.PrintTextInColor($"you've reached lvl {CurrentLevel}", ConsoleColor.Blue, false);
             Console.Write($"! {SkillPointsPerLevel} new skill {(SkillPointsPerLevel == 1 ? "point" : "points")} available.");
