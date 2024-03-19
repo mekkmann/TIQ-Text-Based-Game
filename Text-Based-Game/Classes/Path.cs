@@ -99,7 +99,6 @@
                         steps.Add(new(PathStepType.PlayerTalk));
                     }
                     steps.Add(new(PathStepType.BossFight));
-                    steps.Add(new(PathStepType.BossFight));
                     break;
                 case PathDifficulty.Hard:
                     for (int i = 0; i <= PathLength / 2; i++)
@@ -114,8 +113,6 @@
                     {
                         steps.Add(new(PathStepType.PlayerTalk));
                     }
-                    steps.Add(new(PathStepType.BossFight));
-                    steps.Add(new(PathStepType.BossFight));
                     steps.Add(new(PathStepType.BossFight));
                     break;
                 case PathDifficulty.Final:
@@ -163,13 +160,11 @@
                         PlayerRef.SpeakAboutEnvironment();
                         break;
                     case PathStepType.MobFight:
-                        // GENERATE MOB AND SIMULATE FIGHT
                         Enemy currentEnemy = new(Difficulty);
                         GameManagerRef.SimulateRegularCombat(currentEnemy);
                         ShowOptionsAfterInteractiveEvent();
                         break;
                     case PathStepType.BossFight:
-                        //TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
                         Boss currentBoss = new(Difficulty);
                         GameManagerRef.SimulateBossCombat(currentBoss);
                         if (i != PathSteps.Count - 1)

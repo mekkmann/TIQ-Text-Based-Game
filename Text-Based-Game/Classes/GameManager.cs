@@ -9,8 +9,14 @@
         Player Player { get; set; }
         public bool CanTakeFinalPath = false;
         public GamePath? CurrentPath { get; set; }
-        private int MaxPathLength = 20;
-        private int MinPathLength = 10;
+        private int MaxPathLengthEasy = 15;
+        private int MinPathLengthEasy = 10;
+        private int MaxPathLengthMedium = 20;
+        private int MinPathLengthMedium = 10;
+        private int MaxPathLengthHard = 25;
+        private int MinPathLengthHard = 15;
+        private int MaxPathLengthFinal = 30;
+        private int MinPathLengthFinal = 20;
         private string[] ReturnToTownMessages;
         private string[] PathStartMessages;
         private string[] PathCompletionMessages;
@@ -286,7 +292,24 @@
             string randomPathStartMessage = PathStartMessages[random.Next(PathStartMessages.Length)];
             string randomPathCompletionMessage = PathCompletionMessages[random.Next(PathCompletionMessages.Length)];
 
-            int randomPathLength = random.Next(MinPathLength, MaxPathLength + 1);
+            int minLength = MinPathLengthEasy;
+            int maxLength = MaxPathLengthEasy;
+            switch (chosenDifficulty)
+            {
+                case PathDifficulty.Medium:
+                    minLength = MinPathLengthMedium;
+                    maxLength = MaxPathLengthMedium;
+                    break;
+                case PathDifficulty.Hard:
+                    minLength = MinPathLengthHard;
+                    maxLength = MaxPathLengthHard;
+                    break;
+                case PathDifficulty.Final:
+                    minLength = MinPathLengthFinal;
+                    maxLength = MaxPathLengthFinal;
+                    break;
+            }
+            int randomPathLength = random.Next(minLength, maxLength + 1);
 
             GamePath newPath = new(
                 randomPathStartMessage,
