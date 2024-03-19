@@ -142,7 +142,7 @@
             {
                 if (Player.Respawns > 0)
                 {
-                    Console.Write("Would you like to (r)espawn or (t)eleport to town?: ");
+                    Console.Write($"Would you like to (r)espawn ({Player.Respawns} / 3) or (t)eleport to town?: ");
                     ConsoleKeyInfo key = Console.ReadKey();
                     bool isValidInput = false;
                     if (key.Key == ConsoleKey.R || key.Key == ConsoleKey.T) isValidInput = true;
@@ -155,6 +155,7 @@
 
                     if (key.Key == ConsoleKey.R)
                     {
+                        Player.Respawns--;
                         SimulateBossCombat(boss);
                     }
                     else

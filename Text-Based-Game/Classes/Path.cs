@@ -17,22 +17,6 @@
         public PathDifficulty Difficulty { get; set; }
         public int PathLength { get; set; }
         public List<PathStep> PathSteps { get; set; }
-
-        private int[] WalkingRangeEasy = [5, 10];
-        private int[] WalkingRangeMedium = [5, 10];
-        private int[] WalkingRangeHard = [4, 8];
-        private int[] WalkingRangeFinal = [3, 5];
-
-        private int[] MobRangeEasy = [5, 10];
-        private int[] MobRangeMedium = [5, 10];
-        private int[] MobRangeHard = [4, 8];
-        private int[] MobRangeFinal = [3, 5];
-
-        private int[] BossRangeEasy = [0, 1];
-        private int[] BossRangeMedium = [1, 1];
-        private int[] BossRangeHard = [1, 2];
-        private int[] BossRangeFinal = [5, 10];
-
         public bool IsCompleted { get; set; }
         public Player PlayerRef { get; set; }
         public float XpOnCompletion { get; set; }
@@ -45,58 +29,15 @@
             GameManagerRef = gameManager;
             PathStartMessage = pathStartMessage;
             PathCompletionMessage = pathCompletionMessage;
-            PathLength = 11;
-            //PathLength = pathLength;
-            PathSteps = [];
+
             Difficulty = difficulty;
-            for (int i = 0; i < PathLength; i++)
+            PathLength = pathLength;
+            PathSteps = MakePath(Difficulty);
+
+            foreach (var step in PathSteps)
             {
-
-                if (i == PathLength - 1)
-                {
-                    PathSteps.Add(new(PathStepType.BossFight));
-                    continue;
-                }
-
-                if (i > 5)
-                {
-                    PathSteps.Add(new(PathStepType.Walking));
-                    continue;
-                }
-                else
-                {
-                    PathSteps.Add(new(PathStepType.MobFight));
-                    continue;
-                }
-                //int randomStepType = random.Next(Enum.GetValues(typeof(PathStepType)).Length - 1);
-                //switch (randomStepType)
-                //{
-                //    case (int)PathStepType.Walking:
-                //        PathSteps.Add(new(PathStepType.Walking));
-                //        break;
-                //    case (int)PathStepType.PlayerTalk:
-                //        PathSteps.Add(new(PathStepType.PlayerTalk));
-                //        break;
-                //    case (int)PathStepType.MobFight:
-                //        if (Difficulty == PathDifficulty.Final)
-                //        {
-                //            if (random.NextDouble() < 0.8f)
-                //            {
-                //                PathSteps.Add(new(PathStepType.BossFight));
-                //            }
-                //            else
-                //            {
-                //                PathSteps.Add(new(PathStepType.MobFight));
-                //            }
-                //        }
-                //        else
-                //        {
-                //            PathSteps.Add(new(PathStepType.MobFight));
-                //        }
-                //        break;
-                //}
+                Console.WriteLine(step.Type);
             }
-
             IsCompleted = false;
             PlayerRef = player;
             switch (Difficulty)
@@ -116,123 +57,123 @@
             }
             XpFromMobsOnPath = 0;
         }
-        //public GamePath(string pathStartMessage, string pathCompletionMessage, int pathLength, Player player, PathDifficulty difficulty, GameManager gameManager)
-        //{
-        //    GameManagerRef = gameManager;
-        //    Random random = new();
-
-        //    PathStartMessage = pathStartMessage;
-        //    PathCompletionMessage = pathCompletionMessage;
-        //    PathLength = pathLength;
-        //    PathSteps = [];
-        //    Difficulty = difficulty;
-        //    for (int i = 0; i < pathLength; i++)
-        //    {
-
-        //        if (i == pathLength - 1)
-        //        {
-        //            PathSteps.Add(new(PathStepType.BossFight));
-        //            continue;
-        //        }
-
-        //        int randomStepType = random.Next(Enum.GetValues(typeof(PathStepType)).Length - 1);
-        //        switch (randomStepType)
-        //        {
-        //            case (int)PathStepType.Walking:
-        //                PathSteps.Add(new(PathStepType.Walking));
-        //                break;
-        //            case (int)PathStepType.PlayerTalk:
-        //                PathSteps.Add(new(PathStepType.PlayerTalk));
-        //                break;
-        //            case (int)PathStepType.MobFight:
-        //                if (Difficulty == PathDifficulty.Final)
-        //                {
-        //                    if (random.NextDouble() < 0.8f)
-        //                    {
-        //                        PathSteps.Add(new(PathStepType.BossFight));
-        //                    }
-        //                    else
-        //                    {
-        //                        PathSteps.Add(new(PathStepType.MobFight));
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    PathSteps.Add(new(PathStepType.MobFight));
-        //                }
-        //                break;
-        //        }
-        //    }
-
-        //    IsCompleted = false;
-        //    PlayerRef = player;
-        //    switch (Difficulty)
-        //    {
-        //        case PathDifficulty.Easy:
-        //            XpOnCompletion = 1000f;
-        //            break;
-        //        case PathDifficulty.Medium:
-        //            XpOnCompletion = 200f;
-        //            break;
-        //        case PathDifficulty.Hard:
-        //            XpOnCompletion = 300f;
-        //            break;
-        //        case PathDifficulty.Final:
-        //            XpOnCompletion = 1000f;
-        //            break;
-        //    }
-        //    XpFromMobsOnPath = 0;
-        //}
 
         // METHODS
+
+        private List<PathStep> MakePath(PathDifficulty difficulty)
+        {
+            Random random = new();
+            List<PathStep> steps = [];
+
+            switch (difficulty)
+            {
+                case PathDifficulty.Easy:
+                    //for (int i = 0; i <= PathLength / 2; i++)
+                    //{
+                    //    steps.Add(new(PathStepType.MobFight));
+                    //}
+                    //for (int i = 0; i < PathLength / 2; i++)
+                    //{
+                    //    steps.Add(new(PathStepType.Walking));
+                    //}
+                    //for (int i = 0; i < PathLength / 2; i++)
+                    //{
+                    //    steps.Add(new(PathStepType.PlayerTalk));
+                    //}
+                    steps.Add(new(PathStepType.BossFight));
+                    break;
+                case PathDifficulty.Medium:
+                    for (int i = 0; i <= PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.MobFight));
+                    }
+                    for (int i = 0; i < PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.Walking));
+                    }
+                    for (int i = 0; i < PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.PlayerTalk));
+                    }
+                    steps.Add(new(PathStepType.BossFight));
+                    steps.Add(new(PathStepType.BossFight));
+                    break;
+                case PathDifficulty.Hard:
+                    for (int i = 0; i <= PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.MobFight));
+                    }
+                    for (int i = 0; i < PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.Walking));
+                    }
+                    for (int i = 0; i < PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.PlayerTalk));
+                    }
+                    steps.Add(new(PathStepType.BossFight));
+                    steps.Add(new(PathStepType.BossFight));
+                    steps.Add(new(PathStepType.BossFight));
+                    break;
+                case PathDifficulty.Final:
+                    for (int i = 0; i <= PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.BossFight));
+                    }
+                    for (int i = 0; i < PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.Walking));
+                    }
+                    for (int i = 0; i < PathLength / 2; i++)
+                    {
+                        steps.Add(new(PathStepType.PlayerTalk));
+                    }
+                    steps.Add(new(PathStepType.BossFight));
+                    break;
+            }
+            Console.WriteLine(PathLength);
+            Console.WriteLine(steps.Count);
+
+            return ShufflePath(steps);
+        }
+
 
         /// <summary>
         /// 
         /// </summary>
         public void Start()
         {
-            foreach (PathStep step in PathSteps)
-            {
-                Console.WriteLine(step.Type);
-            }
-            Console.WriteLine("--------------------------");
-            PathSteps = ShufflePath(PathSteps);
-            foreach (PathStep step in PathSteps)
-            {
-                Console.WriteLine(step.Type);
-            }
-            Console.Read();
-            //PlayerRef.CurrentLocation = Location.Path;
+            PlayerRef.CurrentLocation = Location.Path;
 
-            //TextHelper.PrintStringCharByChar(PathStartMessage, ConsoleColor.White);
-            //TextHelper.LineSpacing(0);
-            //Random random = new();
-            //Thread.Sleep(random.Next(500, 1500));
-            //foreach (PathStep step in PathSteps)
-            //{
-            //    switch (step.Type)
-            //    {
-            //        case PathStepType.Walking:
-            //            TextHelper.PrintTextInColor("*walking*", ConsoleColor.DarkGray);
-            //            break;
-            //        case PathStepType.PlayerTalk:
-            //            PlayerRef.SpeakAboutEnvironment();
-            //            break;
-            //        case PathStepType.MobFight:
-            //            // GENERATE MOB AND SIMULATE FIGHT
-            //            Enemy currentEnemy = new(Difficulty);
-            //            GameManagerRef.SimulateRegularCombat(currentEnemy);
-            //            ShowOptionsAfterInteractiveEvent();
-            //            break;
-            //        case PathStepType.BossFight:
-            //            //TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
-            //            Boss currentBoss = new(Difficulty);
-            //            GameManagerRef.SimulateBossCombat(currentBoss);
-            //            break;
-            //    }
-            //    Thread.Sleep(random.Next(500, 1500));
-            //}
-            //PathCompleted();
+            TextHelper.PrintStringCharByChar(PathStartMessage, ConsoleColor.White);
+            TextHelper.LineSpacing(0);
+            Random random = new();
+            Thread.Sleep(random.Next(500, 1500));
+            foreach (PathStep step in PathSteps)
+            {
+                switch (step.Type)
+                {
+                    case PathStepType.Walking:
+                        TextHelper.PrintTextInColor("*walking*", ConsoleColor.DarkGray);
+                        break;
+                    case PathStepType.PlayerTalk:
+                        PlayerRef.SpeakAboutEnvironment();
+                        break;
+                    case PathStepType.MobFight:
+                        // GENERATE MOB AND SIMULATE FIGHT
+                        Enemy currentEnemy = new(Difficulty);
+                        GameManagerRef.SimulateRegularCombat(currentEnemy);
+                        ShowOptionsAfterInteractiveEvent();
+                        break;
+                    case PathStepType.BossFight:
+                        //TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
+                        Boss currentBoss = new(Difficulty);
+                        GameManagerRef.SimulateBossCombat(currentBoss);
+                        break;
+                }
+                Thread.Sleep(random.Next(500, 1500));
+            }
+            PathCompleted();
         }
 
         /// <summary>
