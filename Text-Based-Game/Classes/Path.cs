@@ -45,45 +45,56 @@
             GameManagerRef = gameManager;
             PathStartMessage = pathStartMessage;
             PathCompletionMessage = pathCompletionMessage;
-            PathLength = pathLength;
+            PathLength = 11;
+            //PathLength = pathLength;
             PathSteps = [];
             Difficulty = difficulty;
-            for (int i = 0; i < pathLength; i++)
+            for (int i = 0; i < PathLength; i++)
             {
 
-                if (i == pathLength - 1)
+                if (i == PathLength - 1)
                 {
                     PathSteps.Add(new(PathStepType.BossFight));
                     continue;
                 }
 
-                int randomStepType = random.Next(Enum.GetValues(typeof(PathStepType)).Length - 1);
-                switch (randomStepType)
+                if (i > 5)
                 {
-                    case (int)PathStepType.Walking:
-                        PathSteps.Add(new(PathStepType.Walking));
-                        break;
-                    case (int)PathStepType.PlayerTalk:
-                        PathSteps.Add(new(PathStepType.PlayerTalk));
-                        break;
-                    case (int)PathStepType.MobFight:
-                        if (Difficulty == PathDifficulty.Final)
-                        {
-                            if (random.NextDouble() < 0.8f)
-                            {
-                                PathSteps.Add(new(PathStepType.BossFight));
-                            }
-                            else
-                            {
-                                PathSteps.Add(new(PathStepType.MobFight));
-                            }
-                        }
-                        else
-                        {
-                            PathSteps.Add(new(PathStepType.MobFight));
-                        }
-                        break;
+                    PathSteps.Add(new(PathStepType.Walking));
+                    continue;
                 }
+                else
+                {
+                    PathSteps.Add(new(PathStepType.MobFight));
+                    continue;
+                }
+                //int randomStepType = random.Next(Enum.GetValues(typeof(PathStepType)).Length - 1);
+                //switch (randomStepType)
+                //{
+                //    case (int)PathStepType.Walking:
+                //        PathSteps.Add(new(PathStepType.Walking));
+                //        break;
+                //    case (int)PathStepType.PlayerTalk:
+                //        PathSteps.Add(new(PathStepType.PlayerTalk));
+                //        break;
+                //    case (int)PathStepType.MobFight:
+                //        if (Difficulty == PathDifficulty.Final)
+                //        {
+                //            if (random.NextDouble() < 0.8f)
+                //            {
+                //                PathSteps.Add(new(PathStepType.BossFight));
+                //            }
+                //            else
+                //            {
+                //                PathSteps.Add(new(PathStepType.MobFight));
+                //            }
+                //        }
+                //        else
+                //        {
+                //            PathSteps.Add(new(PathStepType.MobFight));
+                //        }
+                //        break;
+                //}
             }
 
             IsCompleted = false;
@@ -180,37 +191,67 @@
         /// </summary>
         public void Start()
         {
-            PlayerRef.CurrentLocation = Location.Path;
-
-            TextHelper.PrintStringCharByChar(PathStartMessage, ConsoleColor.White);
-            TextHelper.LineSpacing(0);
-            Random random = new();
-            Thread.Sleep(random.Next(500, 1500));
             foreach (PathStep step in PathSteps)
             {
-                switch (step.Type)
-                {
-                    case PathStepType.Walking:
-                        TextHelper.PrintTextInColor("*walking*", ConsoleColor.DarkGray);
-                        break;
-                    case PathStepType.PlayerTalk:
-                        PlayerRef.SpeakAboutEnvironment();
-                        break;
-                    case PathStepType.MobFight:
-                        // GENERATE MOB AND SIMULATE FIGHT
-                        Enemy currentEnemy = new(Difficulty);
-                        GameManagerRef.SimulateRegularCombat(currentEnemy);
-                        ShowOptionsAfterInteractiveEvent();
-                        break;
-                    case PathStepType.BossFight:
-                        //TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
-                        Boss currentBoss = new(Difficulty);
-                        GameManagerRef.SimulateBossCombat(currentBoss);
-                        break;
-                }
-                Thread.Sleep(random.Next(500, 1500));
+                Console.WriteLine(step.Type);
             }
-            PathCompleted();
+            Console.WriteLine("--------------------------");
+            PathSteps = ShufflePath(PathSteps);
+            foreach (PathStep step in PathSteps)
+            {
+                Console.WriteLine(step.Type);
+            }
+            Console.Read();
+            //PlayerRef.CurrentLocation = Location.Path;
+
+            //TextHelper.PrintStringCharByChar(PathStartMessage, ConsoleColor.White);
+            //TextHelper.LineSpacing(0);
+            //Random random = new();
+            //Thread.Sleep(random.Next(500, 1500));
+            //foreach (PathStep step in PathSteps)
+            //{
+            //    switch (step.Type)
+            //    {
+            //        case PathStepType.Walking:
+            //            TextHelper.PrintTextInColor("*walking*", ConsoleColor.DarkGray);
+            //            break;
+            //        case PathStepType.PlayerTalk:
+            //            PlayerRef.SpeakAboutEnvironment();
+            //            break;
+            //        case PathStepType.MobFight:
+            //            // GENERATE MOB AND SIMULATE FIGHT
+            //            Enemy currentEnemy = new(Difficulty);
+            //            GameManagerRef.SimulateRegularCombat(currentEnemy);
+            //            ShowOptionsAfterInteractiveEvent();
+            //            break;
+            //        case PathStepType.BossFight:
+            //            //TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
+            //            Boss currentBoss = new(Difficulty);
+            //            GameManagerRef.SimulateBossCombat(currentBoss);
+            //            break;
+            //    }
+            //    Thread.Sleep(random.Next(500, 1500));
+            //}
+            //PathCompleted();
+        }
+
+        /// <summary>
+        /// Shuffles everything but the last element
+        /// </summary>
+        static List<PathStep> ShufflePath(List<PathStep> items)
+        {
+            Random random = new();
+            List<PathStep> itemsCopy = new(items);
+
+            int copyCount = itemsCopy.Count - 1;
+
+            for (int i = copyCount - 1; i > 0; i--)
+            {
+                int j = random.Next(0, copyCount--);
+                (itemsCopy[j], itemsCopy[i]) = (itemsCopy[i], itemsCopy[j]);
+            }
+
+            return itemsCopy;
         }
 
         /// <summary>
