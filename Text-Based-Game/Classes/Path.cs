@@ -152,9 +152,9 @@
             TextHelper.LineSpacing(0);
             Random random = new();
             Thread.Sleep(random.Next(500, 1500));
-            foreach (PathStep step in PathSteps)
+            for (int i = 0; i < PathSteps.Count; i++)
             {
-                switch (step.Type)
+                switch (PathSteps[i].Type)
                 {
                     case PathStepType.Walking:
                         TextHelper.PrintTextInColor("*walking*", ConsoleColor.DarkGray);
@@ -172,6 +172,10 @@
                         //TextHelper.PrintTextInColor("*should be a boss fight*", ConsoleColor.DarkRed, true);
                         Boss currentBoss = new(Difficulty);
                         GameManagerRef.SimulateBossCombat(currentBoss);
+                        if (i != PathSteps.Count - 1)
+                        {
+                            ShowOptionsAfterInteractiveEvent();
+                        }
                         break;
                 }
                 Thread.Sleep(random.Next(500, 1500));

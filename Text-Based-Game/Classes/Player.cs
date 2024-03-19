@@ -49,9 +49,9 @@
             IsDead = false;
             CurrentLocation = Location.Town;
             GameManagerRef = gameManagerRef;
-            WeaponsInBag.Add(new("Rusted Sword Hilt", 2, 4, 1, 2, 10, 10));
-            WeaponsInBag.Add(new("Jawbone", 6, 10, 1, 1, 2, 2));
-            WeaponsInBag.Add(new("Unga-Bunga", 30, 50, 0, 1, 5, 15));
+            WeaponsInBag.Add(new("Common Weapon", 2, 4, 1, 2, 0, 1));
+            WeaponsInBag.Add(new("Uncommom Weapon", 6, 10, 1, 1, 2, 2));
+            WeaponsInBag.Add(new("Legendary Weapon", 30, 50, 1, 1, 5, 15));
             EnvironmentObservations = File.ReadAllLines(EnvironmentObservationsPath);
         }
 
