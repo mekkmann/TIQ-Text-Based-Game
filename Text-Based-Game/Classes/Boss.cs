@@ -12,7 +12,7 @@
             HP *= BossMultiplier;
             XpDropped *= BossMultiplier;
             MinDamage *= BossMultiplier;
-            MaxDamage *= 1000;
+            MaxDamage *= BossMultiplier;
         }
 
         // METHODS

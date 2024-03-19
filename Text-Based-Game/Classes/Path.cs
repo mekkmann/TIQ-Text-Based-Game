@@ -80,6 +80,9 @@
                     //{
                     //    steps.Add(new(PathStepType.PlayerTalk));
                     //}
+                    steps.Add(new(PathStepType.Walking));
+                    steps.Add(new(PathStepType.PlayerTalk));
+                    steps.Add(new(PathStepType.MobFight));
                     steps.Add(new(PathStepType.BossFight));
                     break;
                 case PathDifficulty.Medium:

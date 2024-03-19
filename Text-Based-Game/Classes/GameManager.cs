@@ -70,7 +70,7 @@
                 {
                     int enemyDamage = random.Next(enemy.MinDamage, enemy.MaxDamage + 1);
                     Player.TakeDamage(enemyDamage);
-                    Console.WriteLine($"{enemy.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp} HP left");
+                    Console.WriteLine($"{enemy.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP");
                 }
                 Thread.Sleep(500);
 
@@ -126,7 +126,7 @@
                 {
                     int enemyDamage = random.Next(boss.MinDamage, boss.MaxDamage + 1);
                     Player.TakeDamage(enemyDamage);
-                    Console.WriteLine($"{boss.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp} HP left");
+                    Console.WriteLine($"{boss.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP");
                 }
                 Thread.Sleep(500);
 
