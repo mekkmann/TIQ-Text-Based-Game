@@ -41,6 +41,9 @@
             CurrentPath?.Start();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void SimulateRegularCombat(Enemy enemy)
         {
             Random random = new();
@@ -105,6 +108,9 @@
             TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void SimulateBossCombat(Boss boss)
         {
             Random random = new();

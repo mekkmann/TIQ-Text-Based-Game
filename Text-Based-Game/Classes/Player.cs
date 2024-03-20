@@ -118,28 +118,30 @@
                     validInput = true;
                     if (input == "r")
                     {
-                        GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+                        if (CurrentLocation != Location.Town)
+                        {
+                            GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+                        }
+                        else
+                        {
+                            ShowStats();
+                        }
                         return;
                     }
                     else
                     {
                         EquipWeapon(WeaponsInBag[valueAsInt - 1]);
                     }
-                    //if (valueAsInt == 1)
-                    //{
-                    //    EquipWeapon(WeaponsInBag[0]);
-                    //}
-                    //else if (valueAsInt == 2)
-                    //{
-                    //    EquipWeapon(WeaponsInBag[1]);
-                    //}
-                    //else if (valueAsInt == 3)
-                    //{
-                    //    EquipWeapon(WeaponsInBag[2]);
-                    //}
                 }
             } while (!validInput);
-            GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+            if (CurrentLocation != Location.Town)
+            {
+                GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+            }
+            else
+            {
+                ShowStats();
+            }
         }
 
         /// <summary>
@@ -185,7 +187,7 @@
             Console.WriteLine($"Vitality: {Vitality}");
             Console.WriteLine($"Strength: {Strength}");
             TextHelper.LineSpacing(0);
-            Console.WriteLine($"Equipped Weapon: {EquippedWeapon.Name}");
+            Console.WriteLine($"Equipped Weapon: {EquippedWeapon.Name} ({EquippedWeapon.Rarity})");
             Console.WriteLine($"    Damage: {EquippedWeapon.MinDamage} - {EquippedWeapon.MaxDamage}");
             if (EquippedWeapon.MinAttacksPerTurn == EquippedWeapon.MaxAttacksPerTurn)
             {
@@ -228,10 +230,31 @@
             }
             else
             {
-                Console.Write("\nPress any key to return to your adventure: ");
-                _ = Console.ReadKey();
-                Console.WriteLine();
-                GameManagerRef.ShowTownOptions();
+                Console.Write("\nWould you like to r(e)spec, (c)hange your equipment or (r)eturn to your adventure?: ");
+                ConsoleKeyInfo key = Console.ReadKey();
+                bool validInput = false;
+                if (key.Key == ConsoleKey.R || key.Key == ConsoleKey.E || key.Key == ConsoleKey.C) validInput = true;
+                while (!validInput)
+                {
+                    Console.Write("\nNo choice was made, please try again: ");
+                    key = Console.ReadKey();
+                    if (key.Key == ConsoleKey.R || key.Key == ConsoleKey.E || key.Key == ConsoleKey.C) validInput = true;
+                }
+                Console.WriteLine("\n");
+                switch (key.Key)
+                {
+                    case ConsoleKey.R:
+                        GameManagerRef.ShowTownOptions();
+                        break;
+                    case ConsoleKey.E:
+                        ResetSkillPoints();
+                        ShowStats();
+                        break;
+                    case ConsoleKey.C:
+                        ChangeEquipment();
+
+                        break;
+                }
             }
         }
 
