@@ -57,6 +57,14 @@
 
         // METHODS
 
+        public void PickUpLoot(object loot)
+        {
+            if (loot.GetType() == typeof(Weapon))
+            {
+                WeaponsInBag.Add((Weapon)loot);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
