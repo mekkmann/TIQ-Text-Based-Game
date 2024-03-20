@@ -113,7 +113,7 @@
             {
                 string input = Console.ReadLine();
                 bool inputAsInt = Int32.TryParse(input, out int valueAsInt);
-                if (input.ToLower() == "r" || valueAsInt == 1 || valueAsInt == 2 || valueAsInt == 3)
+                if (input.ToLower() == "r" || valueAsInt <= WeaponsInBag.Count)
                 {
                     validInput = true;
                     if (input == "r")
@@ -121,18 +121,22 @@
                         GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
                         return;
                     }
-                    if (valueAsInt == 1)
+                    else
                     {
-                        EquipWeapon(WeaponsInBag[0]);
+                        EquipWeapon(WeaponsInBag[valueAsInt - 1]);
                     }
-                    else if (valueAsInt == 2)
-                    {
-                        EquipWeapon(WeaponsInBag[1]);
-                    }
-                    else if (valueAsInt == 3)
-                    {
-                        EquipWeapon(WeaponsInBag[2]);
-                    }
+                    //if (valueAsInt == 1)
+                    //{
+                    //    EquipWeapon(WeaponsInBag[0]);
+                    //}
+                    //else if (valueAsInt == 2)
+                    //{
+                    //    EquipWeapon(WeaponsInBag[1]);
+                    //}
+                    //else if (valueAsInt == 3)
+                    //{
+                    //    EquipWeapon(WeaponsInBag[2]);
+                    //}
                 }
             } while (!validInput);
             GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();

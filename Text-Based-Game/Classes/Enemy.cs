@@ -3,7 +3,6 @@
     internal class Enemy
     {
         const string mobNamesPath = "Content/mobNames.txt";
-
         public string Name { get; set; }
         public float StatMultiplier { get; set; }
         public int BaseHp = 25;
@@ -13,7 +12,6 @@
         public float DodgeChance { get; set; }
         public int BaseXP = 12;
         public float XpDropped { get; set; }
-
         public object? ItemToDrop { get; set; }
 
 
