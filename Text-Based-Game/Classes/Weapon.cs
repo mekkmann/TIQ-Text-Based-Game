@@ -24,8 +24,6 @@
 
         public Weapon(
             Rarity rarity,
-            int minAttacks,
-            int maxAttacks,
             int vitalityBonus,
             int strengthBonus,
             string name = "Placeholder"
@@ -40,14 +38,82 @@
                 Name = name;
             }
             Rarity = rarity;
-            MinAttacksPerTurn = minAttacks;
-            MaxAttacksPerTurn = maxAttacks;
+            MinAttacksPerTurn = GenerateMinAttacks();
+            MaxAttacksPerTurn = GenerateMaxAttacks();
             VitalityBonus = vitalityBonus;
             StrengthBonus = strengthBonus;
             MinDamage = GenerateMinDamage();
             MaxDamage = GenerateMaxDamage();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private int GenerateMaxAttacks()
+        {
+            Random random = new();
+            if (random.NextDouble() < 0.2f)
+            {
+                return MinAttacksPerTurn + 1;
+            }
+            else
+            {
+                return MinAttacksPerTurn;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private int GenerateMinAttacks()
+        {
+            Random random = new();
+            switch (Rarity)
+            {
+                case Rarity.Common:
+                case Rarity.Uncommon:
+                    if (random.NextDouble() < 0.1f)
+                    {
+                        return random.Next(1, 2 + 1);
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                case Rarity.Rare:
+                    if (random.NextDouble() < 0.1f)
+                    {
+                        return random.Next(1, 3 + 1);
+                    }
+                    else
+                    {
+                        return random.Next(1, 2 + 1);
+                    }
+                case Rarity.Epic:
+                    if (random.NextDouble() < 0.1f)
+                    {
+                        return random.Next(2, 3 + 1);
+                    }
+                    else
+                    {
+                        return random.Next(1, 3 + 1);
+                    }
+                case Rarity.Legendary:
+                    if (random.NextDouble() < 0.1f)
+                    {
+                        return 4;
+                    }
+                    else
+                    {
+                        return random.Next(1, 3 + 1);
+                    }
+                default:
+                    return -1;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private int GenerateMaxDamage()
         {
             Random random = new();
@@ -102,10 +168,10 @@
                     return -1;
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
         private int GenerateMinDamage()
         {
             Random random = new();
@@ -165,7 +231,6 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
         private string WeaponName()
         {
             Random random = new();
