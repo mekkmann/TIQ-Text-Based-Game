@@ -45,10 +45,67 @@
             VitalityBonus = vitalityBonus;
             StrengthBonus = strengthBonus;
             MinDamage = GenerateMinDamage();
-            MaxDamage = 100;
+            MaxDamage = GenerateMaxDamage();
         }
 
-
+        private int GenerateMaxDamage()
+        {
+            Random random = new();
+            switch (Rarity)
+            {
+                case Rarity.Common:
+                    if (random.NextDouble() < 0.25f)
+                    {
+                        return 5;
+                    }
+                    else
+                    {
+                        return random.Next(2, 4 + 1);
+                    }
+                case Rarity.Uncommon:
+                    if (random.NextDouble() < 0.25f)
+                    {
+                        return 10;
+                    }
+                    else
+                    {
+                        return random.Next(3, 8 + 1);
+                    }
+                case Rarity.Rare:
+                    if (random.NextDouble() < 0.25f)
+                    {
+                        return 25;
+                    }
+                    else
+                    {
+                        return random.Next(10, 17 + 1);
+                    }
+                case Rarity.Epic:
+                    if (random.NextDouble() < 0.25f)
+                    {
+                        return 50;
+                    }
+                    else
+                    {
+                        return random.Next(20, 35 + 1);
+                    }
+                case Rarity.Legendary:
+                    if (random.NextDouble() < 0.25f)
+                    {
+                        return 75;
+                    }
+                    else
+                    {
+                        return random.Next(40, 70 + 1);
+                    }
+                default:
+                    return -1;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private int GenerateMinDamage()
         {
             Random random = new();
