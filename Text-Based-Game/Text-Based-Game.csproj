@@ -16,6 +16,7 @@
     <None Remove="Content\pathCompletionMessages.txt" />
     <None Remove="Content\pathStartMessages.txt" />
     <None Remove="Content\returnToTownMessages.txt" />
+    <None Remove="Content\weaponNames.txt" />
     <None Remove="intro.txt" />
     <None Remove="title.txt" />
   </ItemGroup>
@@ -46,6 +47,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\title.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\weaponNames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

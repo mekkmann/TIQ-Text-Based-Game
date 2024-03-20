@@ -19,7 +19,8 @@
         const int StartingStrength = 5;
         public GameManager GameManagerRef { get; private set; }
         public string[] EnvironmentObservations { get; private set; }
-        public Weapon EquippedWeapon = new("Fists", 1, 2, 1, 1, 0, 0);
+        public Weapon EquippedWeapon = new(Rarity.Common, 1, 1, 0, 0, "Fists");
+        //public Weapon EquippedWeapon = new(Rarity.Common, 1, 2, 1, 1, 0, 0, "Fists");
         public List<Weapon> WeaponsInBag = [];
         public readonly string Name = "Alaric";
         public int CurrentLevel = 1;
@@ -49,9 +50,12 @@
             IsDead = false;
             CurrentLocation = Location.Town;
             GameManagerRef = gameManagerRef;
-            WeaponsInBag.Add(new("Common Weapon", 2, 4, 1, 2, 0, 1));
-            WeaponsInBag.Add(new("Uncommom Weapon", 6, 10, 1, 1, 2, 2));
-            WeaponsInBag.Add(new("Legendary Weapon", 30, 50, 1, 1, 5, 15));
+            //WeaponsInBag.Add(new(Rarity.Common, 2, 4, 1, 2, 0, 1));
+            //WeaponsInBag.Add(new(Rarity.Uncommon, 6, 10, 1, 1, 2, 2));
+            //WeaponsInBag.Add(new(Rarity.Legendary, 30, 50, 1, 1, 5, 15)); 
+            WeaponsInBag.Add(new(Rarity.Common, 1, 2, 0, 1));
+            WeaponsInBag.Add(new(Rarity.Uncommon, 1, 1, 2, 2));
+            WeaponsInBag.Add(new(Rarity.Legendary, 1, 1, 5, 15));
             EnvironmentObservations = File.ReadAllLines(EnvironmentObservationsPath);
         }
 
@@ -85,7 +89,7 @@
             for (var i = 0; i < WeaponsInBag.Count; i++)
             {
                 Weapon temp = WeaponsInBag[i];
-                Console.WriteLine($"{i + 1}. {temp.Name}");
+                Console.WriteLine($"{i + 1}. {temp.Name} ({temp.Rarity})");
                 Console.WriteLine($"    Damage: {temp.MinDamage} - {temp.MaxDamage}");
                 if (temp.MinAttacksPerTurn == temp.MaxAttacksPerTurn)
                 {
@@ -172,9 +176,22 @@
             Console.WriteLine($"Max HP: {MaxHp}");
             Console.WriteLine($"Vitality: {Vitality}");
             Console.WriteLine($"Strength: {Strength}");
+            TextHelper.LineSpacing(0);
+            Console.WriteLine($"Equipped Weapon: {EquippedWeapon.Name}");
+            Console.WriteLine($"    Damage: {EquippedWeapon.MinDamage} - {EquippedWeapon.MaxDamage}");
+            if (EquippedWeapon.MinAttacksPerTurn == EquippedWeapon.MaxAttacksPerTurn)
+            {
+                Console.WriteLine($"    Attacks per turn: {EquippedWeapon.MinAttacksPerTurn}");
+            }
+            else
+            {
+                Console.WriteLine($"    Attacks per turn: {EquippedWeapon.MinAttacksPerTurn} - {EquippedWeapon.MaxAttacksPerTurn}");
+            }
+            Console.WriteLine($"    Vitality Boost: {EquippedWeapon.VitalityBonus}");
+            Console.WriteLine($"    Strength Boost: {EquippedWeapon.StrengthBonus}");
             if (AvailableSkillpoints > 0)
             {
-                Console.Write("\nWould you like to increase (v)itality or (s)trength, (e)spec or (r)eturn to your adventure?: ");
+                Console.Write("\nWould you like to increase (v)itality or (s)trength, r(e)spec or (r)eturn to your adventure?: ");
                 ConsoleKeyInfo key = Console.ReadKey();
                 bool validInput = false;
                 if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R || key.Key == ConsoleKey.E) validInput = true;
