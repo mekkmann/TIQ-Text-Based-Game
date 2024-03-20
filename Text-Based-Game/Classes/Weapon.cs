@@ -40,10 +40,58 @@
             Rarity = rarity;
             MinAttacksPerTurn = GenerateMinAttacks();
             MaxAttacksPerTurn = GenerateMaxAttacks();
-            VitalityBonus = vitalityBonus;
-            StrengthBonus = strengthBonus;
+            VitalityBonus = GenerateStatBonus();
+            StrengthBonus = GenerateStatBonus();
             MinDamage = GenerateMinDamage();
             MaxDamage = GenerateMaxDamage();
+        }
+
+        private int GenerateStatBonus()
+        {
+            Random random = new();
+            switch (Rarity)
+            {
+                case Rarity.Common:
+                    return 0;
+                case Rarity.Uncommon:
+                    if (random.NextDouble() < 0.1f)
+                    {
+                        return random.Next(3, 4 + 1);
+                    }
+                    else
+                    {
+                        return random.Next(0, 2 + 1);
+                    }
+                case Rarity.Rare:
+                    if (random.NextDouble() < 0.1f)
+                    {
+                        return random.Next(3, 6 + 1);
+                    }
+                    else
+                    {
+                        return random.Next(1, 5 + 1);
+                    }
+                case Rarity.Epic:
+                    if (random.NextDouble() < 0.1f)
+                    {
+                        return random.Next(5, 14 + 1);
+                    }
+                    else
+                    {
+                        return random.Next(3, 12 + 1);
+                    }
+                case Rarity.Legendary:
+                    if (random.NextDouble() < 0.1f)
+                    {
+                        return 20;
+                    }
+                    else
+                    {
+                        return random.Next(5, 15 + 1);
+                    }
+                default:
+                    return -1;
+            }
         }
 
         /// <summary>
