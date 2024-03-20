@@ -86,7 +86,15 @@
             {
                 CurrentPath.XpFromMobsOnPath += enemy.XpDropped;
                 Console.Write($"The {enemy.Name} collapses, ");
-                TextHelper.PrintTextInColor($"you've gained {enemy.XpDropped} XP!\n\n", ConsoleColor.Blue, false);
+                if (enemy.ItemToDrop != null)
+                {
+                    TextHelper.PrintTextInColor($"you've gained {enemy.XpDropped} XP", ConsoleColor.Blue, false);
+                    TextHelper.PrintTextInColor($" and {((Weapon)enemy.ItemToDrop).Name} ({((Weapon)enemy.ItemToDrop).Rarity})!\n\n", ConsoleColor.Blue, false);
+                }
+                else
+                {
+                    TextHelper.PrintTextInColor($"you've gained {enemy.XpDropped} XP!\n\n", ConsoleColor.Blue, false);
+                }
             }
             else
             {

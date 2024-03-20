@@ -83,7 +83,7 @@
             MinDamage = (int)(2 * StatMultiplier);
             MaxDamage = (int)(6 * StatMultiplier);
 
-            DodgeChance = 0.125f;
+            DodgeChance = 0.1f;
         }
 
         // METHODS
