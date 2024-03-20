@@ -24,8 +24,6 @@
 
         public Weapon(
             Rarity rarity,
-            int vitalityBonus,
-            int strengthBonus,
             string name = "Placeholder"
             )
         {
@@ -46,6 +44,9 @@
             MaxDamage = GenerateMaxDamage();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private int GenerateStatBonus()
         {
             Random random = new();

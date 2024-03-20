@@ -19,8 +19,7 @@
         const int StartingStrength = 5;
         public GameManager GameManagerRef { get; private set; }
         public string[] EnvironmentObservations { get; private set; }
-        public Weapon EquippedWeapon = new(Rarity.Common, 0, 0, "Fists");
-        //public Weapon EquippedWeapon = new(Rarity.Common, 1, 2, 1, 1, 0, 0, "Fists");
+        public Weapon EquippedWeapon = new(Rarity.Common, "Fists");
         public List<Weapon> WeaponsInBag = [];
         public readonly string Name = "Alaric";
         public int CurrentLevel = 1;
@@ -50,12 +49,9 @@
             IsDead = false;
             CurrentLocation = Location.Town;
             GameManagerRef = gameManagerRef;
-            //WeaponsInBag.Add(new(Rarity.Common, 2, 4, 1, 2, 0, 1));
-            //WeaponsInBag.Add(new(Rarity.Uncommon, 6, 10, 1, 1, 2, 2));
-            //WeaponsInBag.Add(new(Rarity.Legendary, 30, 50, 1, 1, 5, 15)); 
-            WeaponsInBag.Add(new(Rarity.Common, 0, 1));
-            WeaponsInBag.Add(new(Rarity.Uncommon, 2, 2));
-            WeaponsInBag.Add(new(Rarity.Legendary, 5, 15));
+            WeaponsInBag.Add(new(Rarity.Common));
+            WeaponsInBag.Add(new(Rarity.Uncommon));
+            WeaponsInBag.Add(new(Rarity.Legendary));
             EnvironmentObservations = File.ReadAllLines(EnvironmentObservationsPath);
         }
 
