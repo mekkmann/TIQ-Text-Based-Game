@@ -33,10 +33,20 @@
         /// </summary>
         public void StartGame()
         {
+            Console.WriteLine("NewGameModifier: " + Globals.NewGameModifier);
             CurrentPath = GeneratePath(PathDifficulty.Easy);
             CurrentPath?.TraversePath();
         }
 
+
+        public void StartNewJourney()
+        {
+            Globals.NewGameModifier++;
+            Player.WeaponsInBag.Clear();
+            Console.Clear();
+            TextHelper.PrintTextFile(Globals.TitlePath, false);
+            StartGame();
+        }
         /// <summary>
         /// 
         /// </summary>

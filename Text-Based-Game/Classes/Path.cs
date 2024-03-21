@@ -36,8 +36,8 @@
             PathCompletionMessage = pathCompletionMessage;
 
             Difficulty = difficulty;
-            //PathLength = 5;
-            PathLength = pathLength;
+            PathLength = 5;
+            //PathLength = pathLength;
             PathSteps = MakePath(Difficulty);
             IsCompleted = false;
             PlayerRef = player;
@@ -240,8 +240,24 @@
                 TextHelper.LineSpacing();
 
                 TextHelper.PrintTextInColor("SHOULD DISPLAY NG+ OPTION", ConsoleColor.Magenta);
-                Console.ReadLine();
-                return;
+                Console.Write($"\nDo you want to (s)tart Journey {Globals.NewGameModifier + 1} or (q)uit : ");
+                ConsoleKeyInfo key = Console.ReadKey();
+                bool validInput = false;
+                if (key.Key == ConsoleKey.S || key.Key == ConsoleKey.Q) validInput = true;
+                while (!validInput)
+                {
+                    Console.Write("\nNo choice was made, please try again: ");
+                    key = Console.ReadKey();
+                    if (key.Key == ConsoleKey.S || key.Key == ConsoleKey.P) validInput = true;
+                }
+
+                if (key.Key == ConsoleKey.S)
+                {
+                    GameManagerRef.StartNewJourney();
+                    return;
+                }
+
+                Environment.Exit(0);
             }
             TeleportToTown();
         }

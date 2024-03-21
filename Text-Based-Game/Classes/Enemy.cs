@@ -75,11 +75,11 @@
                     }
                     break;
             }
-            Hp = (int)(BaseHp * StatMultiplier);
-            XpDropped = BaseXP * StatMultiplier;
+            Hp = (int)(BaseHp * StatMultiplier * Globals.NewGameModifier);
+            XpDropped = BaseXP * StatMultiplier * Globals.NewGameModifier;
 
-            MinDamage = (int)(2 * StatMultiplier);
-            MaxDamage = (int)(6 * StatMultiplier);
+            MinDamage = (int)(2 * StatMultiplier * Globals.NewGameModifier);
+            MaxDamage = (int)(6 * StatMultiplier * Globals.NewGameModifier);
 
             DodgeChance = 0.1f;
         }
@@ -144,11 +144,11 @@
                     }
                     break;
             }
-            Hp = (int)(BaseHp * StatMultiplier);
-            XpDropped = BaseXP * StatMultiplier;
+            Hp = (int)(BaseHp * StatMultiplier * Globals.NewGameModifier);
+            XpDropped = BaseXP * StatMultiplier * Globals.NewGameModifier;
 
-            MinDamage = (int)(2 * StatMultiplier);
-            MaxDamage = (int)(6 * StatMultiplier);
+            MinDamage = (int)(2 * StatMultiplier * Globals.NewGameModifier);
+            MaxDamage = (int)(6 * StatMultiplier * Globals.NewGameModifier);
 
             DodgeChance = 0.1f;
         }

@@ -11,6 +11,13 @@
   <ItemGroup>
     <None Remove="Content\bossNames.txt" />
     <None Remove="Content\credits.txt" />
+    <None Remove="Content\death1.txt" />
+    <None Remove="Content\death2.txt" />
+    <None Remove="Content\death3.txt" />
+    <None Remove="Content\death4.txt" />
+    <None Remove="Content\death5.txt" />
+    <None Remove="Content\death6.txt" />
+    <None Remove="Content\death7.txt" />
     <None Remove="Content\environmentObservations.txt" />
     <None Remove="Content\mobNames.txt" />
     <None Remove="Content\outro.txt" />
@@ -27,6 +34,27 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\credits.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\death1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\death2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\death3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\death4.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\death7.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\death6.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\death5.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\environmentObservations.txt">

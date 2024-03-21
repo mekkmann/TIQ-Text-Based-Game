@@ -2,6 +2,65 @@
 {
     static class TextHelper
     {
+
+        public static void PrintDeathAnimation(ConsoleColor color)
+        {
+            var frame1 = File.ReadAllLines("Content/death1.txt");
+            var frame2 = File.ReadAllLines("Content/death2.txt");
+            var frame3 = File.ReadAllLines("Content/death3.txt");
+            var frame4 = File.ReadAllLines("Content/death4.txt");
+            var frame5 = File.ReadAllLines("Content/death5.txt");
+            var frame6 = File.ReadAllLines("Content/death6.txt");
+            var frame7 = File.ReadAllLines("Content/death7.txt");
+
+            Console.Clear();
+            ChangeForegroundColor(color);
+            foreach (var line in frame1)
+            {
+                Console.WriteLine(line);
+            }
+            Thread.Sleep(100);
+            Console.Clear();
+            foreach (var line in frame2)
+            {
+                Console.WriteLine(line);
+            }
+            Thread.Sleep(100);
+            Console.Clear();
+            foreach (var line in frame3)
+            {
+                Console.WriteLine(line);
+            }
+            Thread.Sleep(100);
+            Console.Clear();
+            foreach (var line in frame4)
+            {
+                Console.WriteLine(line);
+            }
+            Thread.Sleep(100);
+            Console.Clear();
+            foreach (var line in frame5)
+            {
+                Console.WriteLine(line);
+            }
+            Thread.Sleep(100);
+            Console.Clear();
+            foreach (var line in frame6)
+            {
+                Console.WriteLine(line);
+            }
+            Thread.Sleep(100);
+            Console.Clear();
+            foreach (var line in frame7)
+            {
+                Console.WriteLine(line);
+            }
+            Random random = new();
+            Thread.Sleep(random.Next(1000, 2001));
+            Console.WriteLine("Do you want to (r)espawn? :");
+
+            ChangeForegroundColor(ConsoleColor.Gray);
+        }
         /// <summary>
         /// Reads all lines in a file and either prints it line by line or letter by letter.
         /// </summary>

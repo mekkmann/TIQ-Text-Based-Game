@@ -141,14 +141,15 @@
                     validInput = true;
                     if (input == "r")
                     {
-                        if (CurrentLocation != Location.Town)
-                        {
-                            GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
-                        }
-                        else
-                        {
-                            ShowStats();
-                        }
+                        //if (CurrentLocation != Location.Town)
+                        //{
+                        //    GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+                        //}
+                        //else
+                        //{
+                        //    ShowStats();
+                        //}
+                        ShowStats();
                         return;
                     }
                     else
