@@ -17,8 +17,6 @@
     }
     internal class GamePath
     {
-        const string OutroPath = "Content/outro.txt";
-        const string CreditsPath = "Content/credits.txt";
         public GameManager GameManagerRef { get; private set; }
         public string PathStartMessage { get; set; }
         public string PathCompletionMessage { get; set; }
@@ -237,8 +235,8 @@
             if (Difficulty == PathDifficulty.Final)
             {
                 TextHelper.LineSpacing(0);
-                TextHelper.PrintTextFile(OutroPath, true);
-                TextHelper.PrintTextFile(CreditsPath, true);
+                TextHelper.PrintTextFile(Globals.OutroPath, true);
+                TextHelper.PrintTextFile(Globals.CreditsPath, true);
                 TextHelper.LineSpacing();
 
                 TextHelper.PrintTextInColor("SHOULD DISPLAY NG+ OPTION", ConsoleColor.Magenta);

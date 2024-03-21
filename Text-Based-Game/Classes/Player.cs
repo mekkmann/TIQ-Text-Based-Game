@@ -14,7 +14,6 @@
 
     internal class Player
     {
-        const string EnvironmentObservationsPath = "Content/environmentObservations.txt";
         const int StartingVitality = 500;
         const int StartingStrength = 5;
         public GameManager GameManagerRef { get; private set; }
@@ -49,7 +48,7 @@
             IsDead = false;
             CurrentLocation = Location.Town;
             GameManagerRef = gameManagerRef;
-            EnvironmentObservations = File.ReadAllLines(EnvironmentObservationsPath);
+            EnvironmentObservations = File.ReadAllLines(Globals.EnvironmentObservationsPath);
         }
 
         // METHODS

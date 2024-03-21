@@ -10,7 +10,6 @@
     }
     internal class Weapon
     {
-        const string WeaponNamePath = "Content/weaponNames.txt";
         public string Name { get; set; }
         public Rarity Rarity { get; set; }
         public int MinDamage { get; set; }
@@ -284,7 +283,7 @@
         {
             Random random = new();
 
-            string[] allNames = File.ReadAllLines(WeaponNamePath);
+            string[] allNames = File.ReadAllLines(Globals.WeaponNamePath);
             return allNames[random.Next(allNames.Length)];
         }
     }

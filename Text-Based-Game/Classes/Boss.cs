@@ -2,7 +2,6 @@
 {
     internal class Boss : Enemy
     {
-        const string BossNamePath = "Content/bossNames.txt";
         private readonly float BossMultiplier = 1.5f;
 
         // CONSTRUCTORS
@@ -27,7 +26,7 @@
         private string RandomBossName()
         {
             Random random = new();
-            string[] allNames = File.ReadAllLines(BossNamePath);
+            string[] allNames = File.ReadAllLines(Globals.BossNamePath);
             return allNames[random.Next(allNames.Length - 1)];
         }
     }

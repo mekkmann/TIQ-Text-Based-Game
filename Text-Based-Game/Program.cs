@@ -4,19 +4,17 @@ namespace Text_Based_Game
 {
     internal class Program
     {
-        const string TitlePath = "Content/title.txt";
-        const string IntroPath = "Content/intro.txt";
         static void Main(string[] args)
         {
             // print the title
-            TextHelper.PrintTextFile(TitlePath, false);
+            TextHelper.PrintTextFile(Globals.TitlePath, false);
             // spacing
             Console.WriteLine();
             // for build
             // wait 2.5 seconds
             //Thread.Sleep(2500);
             // print the intro lore
-            TextHelper.PrintTextFile(IntroPath, true);
+            TextHelper.PrintTextFile(Globals.IntroPath, true);
             // spacing
             Console.WriteLine();
             // ask the player if they want to start the game
