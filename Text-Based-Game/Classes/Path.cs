@@ -69,27 +69,23 @@
 
         private List<PathStepType> MakePath(PathDifficulty difficulty)
         {
-            Random random = new();
             List<PathStepType> steps = [];
 
             switch (difficulty)
             {
                 case PathDifficulty.Easy:
-                    //for (int i = 0; i <= PathLength / 2; i++)
-                    //{
-                    //    steps.Add(new(PathStepType.MobFight));
-                    //}
-                    //for (int i = 0; i < PathLength / 2; i++)
-                    //{
-                    //    steps.Add(new(PathStepType.Walking));
-                    //}
-                    //for (int i = 0; i < PathLength / 2; i++)
-                    //{
-                    //    steps.Add(new(PathStepType.PlayerTalk));
-                    //}
-                    steps.Add(PathStepType.Walking);
-                    steps.Add(PathStepType.PlayerTalk);
-                    steps.Add(PathStepType.MobFight);
+                    for (int i = 0; i <= PathLength / 2; i++)
+                    {
+                        steps.Add(PathStepType.MobFight);
+                    }
+                    for (int i = 0; i < PathLength / 2; i++)
+                    {
+                        steps.Add(PathStepType.Walking);
+                    }
+                    for (int i = 0; i < PathLength / 2; i++)
+                    {
+                        steps.Add(PathStepType.PlayerTalk);
+                    }
                     steps.Add(PathStepType.BossFight);
                     break;
                 case PathDifficulty.Medium:
@@ -172,7 +168,8 @@
                         ShowOptionsAfterInteractiveEvent();
                         break;
                     case PathStepType.BossFight:
-                        Boss currentBoss = new(Difficulty);
+                        Boss currentBoss = new(Difficulty, "Harikesh the Indian");
+                        Boss currentBoss2 = new(Difficulty);
                         GameManagerRef.SimulateBossCombat(currentBoss);
                         if (i != PathSteps.Count - 1)
                         {

@@ -138,7 +138,7 @@
             do
             {
                 string input = Console.ReadLine();
-                bool inputAsInt = Int32.TryParse(input, out int valueAsInt);
+                _ = int.TryParse(input, out int valueAsInt);
                 if (input.ToLower() == "r" || valueAsInt <= WeaponsInBag.Count)
                 {
                     validInput = true;
