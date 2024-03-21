@@ -8,6 +8,13 @@
         Final
     }
 
+    enum PathStepType
+    {
+        Walking,
+        PlayerTalk,
+        BossFight,
+        MobFight
+    }
     internal class GamePath
     {
         const string OutroPath = "Content/outro.txt";
@@ -16,7 +23,7 @@
         public string PathCompletionMessage { get; set; }
         public PathDifficulty Difficulty { get; set; }
         public int PathLength { get; set; }
-        public List<PathStep> PathSteps { get; set; }
+        public List<PathStepType> PathSteps { get; set; }
         public bool IsCompleted { get; set; }
         public Player PlayerRef { get; set; }
         public float XpOnCompletion { get; set; }
@@ -25,7 +32,6 @@
         // CONSTRUCTORS
         public GamePath(string pathStartMessage, string pathCompletionMessage, int pathLength, Player player, PathDifficulty difficulty, GameManager gameManager)
         {
-            Random random = new();
             GameManagerRef = gameManager;
             PathStartMessage = pathStartMessage;
             PathCompletionMessage = pathCompletionMessage;
@@ -36,7 +42,7 @@
 
             foreach (var step in PathSteps)
             {
-                Console.WriteLine(step.Type);
+                Console.WriteLine(step);
             }
             IsCompleted = false;
             PlayerRef = player;
@@ -60,10 +66,10 @@
 
         // METHODS
 
-        private List<PathStep> MakePath(PathDifficulty difficulty)
+        private List<PathStepType> MakePath(PathDifficulty difficulty)
         {
             Random random = new();
-            List<PathStep> steps = [];
+            List<PathStepType> steps = [];
 
             switch (difficulty)
             {
@@ -80,55 +86,55 @@
                     //{
                     //    steps.Add(new(PathStepType.PlayerTalk));
                     //}
-                    steps.Add(new(PathStepType.Walking));
-                    steps.Add(new(PathStepType.PlayerTalk));
-                    steps.Add(new(PathStepType.MobFight));
-                    steps.Add(new(PathStepType.BossFight));
+                    steps.Add(PathStepType.Walking);
+                    steps.Add(PathStepType.PlayerTalk);
+                    steps.Add(PathStepType.MobFight);
+                    steps.Add(PathStepType.BossFight);
                     break;
                 case PathDifficulty.Medium:
                     for (int i = 0; i <= PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.MobFight));
+                        steps.Add(PathStepType.MobFight);
                     }
                     for (int i = 0; i < PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.Walking));
+                        steps.Add(PathStepType.Walking);
                     }
                     for (int i = 0; i < PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.PlayerTalk));
+                        steps.Add(PathStepType.PlayerTalk);
                     }
-                    steps.Add(new(PathStepType.BossFight));
+                    steps.Add(PathStepType.BossFight);
                     break;
                 case PathDifficulty.Hard:
                     for (int i = 0; i <= PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.MobFight));
+                        steps.Add(PathStepType.MobFight);
                     }
                     for (int i = 0; i < PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.Walking));
+                        steps.Add(PathStepType.Walking);
                     }
                     for (int i = 0; i < PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.PlayerTalk));
+                        steps.Add(PathStepType.PlayerTalk);
                     }
-                    steps.Add(new(PathStepType.BossFight));
+                    steps.Add(PathStepType.BossFight);
                     break;
                 case PathDifficulty.Final:
                     for (int i = 0; i <= PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.BossFight));
+                        steps.Add(PathStepType.BossFight);
                     }
                     for (int i = 0; i < PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.Walking));
+                        steps.Add(PathStepType.Walking);
                     }
                     for (int i = 0; i < PathLength / 2; i++)
                     {
-                        steps.Add(new(PathStepType.PlayerTalk));
+                        steps.Add(PathStepType.PlayerTalk);
                     }
-                    steps.Add(new(PathStepType.BossFight));
+                    steps.Add(PathStepType.BossFight);
                     break;
             }
             Console.WriteLine(PathLength);
@@ -151,7 +157,7 @@
             Thread.Sleep(random.Next(500, 1500));
             for (int i = 0; i < PathSteps.Count; i++)
             {
-                switch (PathSteps[i].Type)
+                switch (PathSteps[i])
                 {
                     case PathStepType.Walking:
                         TextHelper.PrintTextInColor("*walking*", ConsoleColor.DarkGray);
@@ -181,10 +187,10 @@
         /// <summary>
         /// Shuffles everything but the last element
         /// </summary>
-        static List<PathStep> ShufflePath(List<PathStep> items)
+        static List<PathStepType> ShufflePath(List<PathStepType> list)
         {
             Random random = new();
-            List<PathStep> itemsCopy = new(items);
+            List<PathStepType> itemsCopy = new(list);
 
             int copyCount = itemsCopy.Count - 1;
 
