@@ -9,7 +9,7 @@
         public Boss(PathDifficulty difficulty) : base(difficulty)
         {
             Name = RandomBossName();
-            HP = (int)(HP * BossMultiplier);
+            Hp = (int)(Hp * BossMultiplier);
             XpDropped *= BossMultiplier;
             MinDamage = (int)(MinDamage * BossMultiplier);
             MaxDamage = (int)(MaxDamage * BossMultiplier);
@@ -17,7 +17,7 @@
         public Boss(PathDifficulty difficulty, string name) : base(difficulty, name)
         {
             Name = name;
-            HP = (int)(HP * BossMultiplier);
+            Hp = (int)(Hp * BossMultiplier);
             XpDropped *= BossMultiplier;
             MinDamage = (int)(MinDamage * BossMultiplier);
             MaxDamage = (int)(MaxDamage * BossMultiplier);

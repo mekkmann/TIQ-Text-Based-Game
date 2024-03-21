@@ -38,7 +38,7 @@
         public void StartGame()
         {
             CurrentPath = GeneratePath(PathDifficulty.Easy);
-            CurrentPath?.Start();
+            CurrentPath?.TraversePath();
         }
 
         /// <summary>
@@ -48,7 +48,7 @@
         {
             Random random = new();
             TextHelper.ChangeForegroundColor(ConsoleColor.Yellow);
-            Console.WriteLine($"\nYou've encountered {enemy.Name}, {enemy.HP} HP");
+            Console.WriteLine($"\nYou've encountered {enemy.Name}, {enemy.Hp} HP");
             Thread.Sleep(500);
             do
             {
@@ -71,21 +71,21 @@
                     {
                         Console.WriteLine($"You attack {enemy.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg");
                     }
-                    enemy.HP -= playerAttack[1];
+                    enemy.TakeDamage(playerAttack[1]);
                 }
                 Thread.Sleep(500);
 
-                if (enemy.HP > 0)
+                if (enemy.Hp > 0)
                 {
-                    int enemyDamage = random.Next(enemy.MinDamage, enemy.MaxDamage + 1);
+                    int enemyDamage = enemy.CalculateAttack();
                     Player.TakeDamage(enemyDamage);
                     Console.WriteLine($"{enemy.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP");
                 }
                 Thread.Sleep(500);
 
-            } while (enemy.HP > 0 && Player.CurrentHp > 0);
+            } while (enemy.Hp > 0 && Player.CurrentHp > 0);
 
-            if (enemy.HP <= 0)
+            if (enemy.Hp <= 0)
             {
                 CurrentPath.XpFromMobsOnPath += enemy.XpDropped;
                 Console.Write($"The {enemy.Name} collapses, ");
@@ -116,7 +116,7 @@
             Random random = new();
 
             TextHelper.ChangeForegroundColor(ConsoleColor.Red);
-            Console.WriteLine($"\nYou've encountered {boss.Name}, {boss.HP} HP");
+            Console.WriteLine($"\nYou've encountered {boss.Name}, {boss.Hp} HP");
             Thread.Sleep(500);
             do
             {
@@ -139,21 +139,21 @@
                     {
                         Console.WriteLine($"You attack {boss.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg");
                     }
-                    boss.HP -= playerAttack[1];
+                    boss.TakeDamage(playerAttack[1]);
                 }
                 Thread.Sleep(500);
 
-                if (boss.HP > 0)
+                if (boss.Hp > 0)
                 {
-                    int enemyDamage = random.Next(boss.MinDamage, boss.MaxDamage + 1);
+                    int enemyDamage = boss.CalculateAttack();
                     Player.TakeDamage(enemyDamage);
                     Console.WriteLine($"{boss.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP");
                 }
                 Thread.Sleep(500);
 
-            } while (boss.HP > 0 && Player.CurrentHp > 0);
+            } while (boss.Hp > 0 && Player.CurrentHp > 0);
 
-            if (boss.HP <= 0)
+            if (boss.Hp <= 0)
             {
                 CurrentPath.XpFromMobsOnPath += boss.XpDropped;
                 Console.Write($"{boss.Name} collapses, ");
@@ -301,7 +301,7 @@
                 }
 
                 Console.WriteLine("\n");
-                CurrentPath?.Start();
+                CurrentPath?.TraversePath();
                 return;
             }
         }

@@ -38,13 +38,9 @@
             PathCompletionMessage = pathCompletionMessage;
 
             Difficulty = difficulty;
+            //PathLength = 5;
             PathLength = pathLength;
             PathSteps = MakePath(Difficulty);
-
-            foreach (var step in PathSteps)
-            {
-                Console.WriteLine(step);
-            }
             IsCompleted = false;
             PlayerRef = player;
             switch (Difficulty)
@@ -134,8 +130,6 @@
                     steps.Add(PathStepType.BossFight);
                     break;
             }
-            Console.WriteLine(PathLength);
-            Console.WriteLine(steps.Count);
 
             return ShufflePath(steps);
         }
@@ -144,10 +138,9 @@
         /// <summary>
         /// 
         /// </summary>
-        public void Start()
+        public void TraversePath()
         {
             PlayerRef.CurrentLocation = Location.Path;
-
             TextHelper.PrintStringCharByChar(PathStartMessage, ConsoleColor.White);
             TextHelper.LineSpacing(0);
             Random random = new();
@@ -157,9 +150,11 @@
                 switch (PathSteps[i])
                 {
                     case PathStepType.Walking:
+                        TextHelper.LineSpacing(0);
                         TextHelper.PrintTextInColor("*walking*", ConsoleColor.DarkGray);
                         break;
                     case PathStepType.PlayerTalk:
+                        TextHelper.LineSpacing(0);
                         PlayerRef.SpeakAboutEnvironment();
                         break;
                     case PathStepType.MobFight:
@@ -168,8 +163,7 @@
                         ShowOptionsAfterInteractiveEvent();
                         break;
                     case PathStepType.BossFight:
-                        Boss currentBoss = new(Difficulty, "Harikesh the Indian");
-                        Boss currentBoss2 = new(Difficulty);
+                        Boss currentBoss = new(Difficulty);
                         GameManagerRef.SimulateBossCombat(currentBoss);
                         if (i != PathSteps.Count - 1)
                         {
@@ -246,6 +240,10 @@
                 TextHelper.PrintTextFile(OutroPath, true);
                 TextHelper.PrintTextFile(CreditsPath, true);
                 TextHelper.LineSpacing();
+
+                TextHelper.PrintTextInColor("SHOULD DISPLAY NG+ OPTION", ConsoleColor.Magenta);
+                Console.ReadLine();
+                return;
             }
             TeleportToTown();
         }

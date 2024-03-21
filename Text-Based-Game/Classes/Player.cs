@@ -49,9 +49,6 @@
             IsDead = false;
             CurrentLocation = Location.Town;
             GameManagerRef = gameManagerRef;
-            //WeaponsInBag.Add(new(Rarity.Common));
-            //WeaponsInBag.Add(new(Rarity.Uncommon));
-            //WeaponsInBag.Add(new(Rarity.Legendary));
             EnvironmentObservations = File.ReadAllLines(EnvironmentObservationsPath);
         }
 
@@ -132,6 +129,7 @@
                 Console.WriteLine($"    Vitality Boost: {temp.VitalityBonus}");
                 Console.WriteLine($"    Strength Boost: {temp.StrengthBonus}");
             }
+            TextHelper.LineSpacing(0);
             Console.Write("Equip weapon by pressing the corresponding number or (r)eturn to previous selection (Please press enter as well): ");
 
             bool validInput = false;
@@ -139,7 +137,7 @@
             {
                 string input = Console.ReadLine();
                 _ = int.TryParse(input, out int valueAsInt);
-                if (input.ToLower() == "r" || valueAsInt <= WeaponsInBag.Count)
+                if (input.ToLower() == "r" || valueAsInt <= WeaponsInBag.Count && valueAsInt != 0)
                 {
                     validInput = true;
                     if (input == "r")
@@ -158,6 +156,10 @@
                     {
                         EquipWeapon(WeaponsInBag[valueAsInt - 1]);
                     }
+                }
+                else
+                {
+                    Console.Write("No choice was made, please try again: ");
                 }
             } while (!validInput);
             if (CurrentLocation != Location.Town)
