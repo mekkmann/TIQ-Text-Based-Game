@@ -15,11 +15,11 @@
     internal class Player
     {
         const string EnvironmentObservationsPath = "Content/environmentObservations.txt";
-        const int StartingVitality = 100;
+        const int StartingVitality = 500;
         const int StartingStrength = 5;
         public GameManager GameManagerRef { get; private set; }
         public string[] EnvironmentObservations { get; private set; }
-        public Weapon EquippedWeapon = new(Rarity.Common, "Fists");
+        public Weapon EquippedWeapon = new(Rarity.Common, "Broken Sword Hilt");
         public List<Weapon> WeaponsInBag = [];
         public readonly string Name = "Alaric";
         public int CurrentLevel = 1;
@@ -49,9 +49,9 @@
             IsDead = false;
             CurrentLocation = Location.Town;
             GameManagerRef = gameManagerRef;
-            WeaponsInBag.Add(new(Rarity.Common));
-            WeaponsInBag.Add(new(Rarity.Uncommon));
-            WeaponsInBag.Add(new(Rarity.Legendary));
+            //WeaponsInBag.Add(new(Rarity.Common));
+            //WeaponsInBag.Add(new(Rarity.Uncommon));
+            //WeaponsInBag.Add(new(Rarity.Legendary));
             EnvironmentObservations = File.ReadAllLines(EnvironmentObservationsPath);
         }
 
@@ -89,7 +89,33 @@
         /// </summary>
         public void ChangeEquipment()
         {
+            TextHelper.LineSpacing(0);
+            if (WeaponsInBag.Count == 0)
+            {
+                Console.WriteLine("No weapons in bag");
+                if (CurrentLocation != Location.Town)
+                {
+                    GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+                }
+                else
+                {
+                    ShowStats();
+                }
+                return;
+            }
             Console.WriteLine("Weapons:");
+            Console.WriteLine($"Currently Equipped: {EquippedWeapon.Name} ({EquippedWeapon.Rarity})");
+            Console.WriteLine($"    Damage: {EquippedWeapon.MinDamage} - {EquippedWeapon.MaxDamage}");
+            if (EquippedWeapon.MinAttacksPerTurn == EquippedWeapon.MaxAttacksPerTurn)
+            {
+                Console.WriteLine($"    Attacks per turn: {EquippedWeapon.MinAttacksPerTurn}");
+            }
+            else
+            {
+                Console.WriteLine($"    Attacks per turn: {EquippedWeapon.MinAttacksPerTurn} - {EquippedWeapon.MaxAttacksPerTurn}");
+            }
+            Console.WriteLine($"    Vitality Boost: {EquippedWeapon.VitalityBonus}");
+            Console.WriteLine($"    Strength Boost: {EquippedWeapon.StrengthBonus}");
             for (var i = 0; i < WeaponsInBag.Count; i++)
             {
                 Weapon temp = WeaponsInBag[i];
@@ -151,7 +177,9 @@
         {
             DecreaseStat(Stat.Vitality, EquippedWeapon.VitalityBonus);
             DecreaseStat(Stat.Strength, EquippedWeapon.StrengthBonus);
+            WeaponsInBag.Add(EquippedWeapon);
             EquippedWeapon = weapon;
+            WeaponsInBag.Remove(EquippedWeapon);
             IncreaseStat(Stat.Vitality, weapon.VitalityBonus);
             IncreaseStat(Stat.Strength, weapon.StrengthBonus);
         }
@@ -347,7 +375,8 @@
         {
             Vitality -= VitalitySkillPoints;
             Strength -= StrengthSkillPoints;
-
+            MaxHp = CalculateMaxHP();
+            SetCurrentHpToMax();
             AvailableSkillpoints += VitalitySkillPoints + StrengthSkillPoints;
 
             VitalitySkillPoints = 0;

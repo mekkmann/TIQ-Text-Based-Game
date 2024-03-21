@@ -3,7 +3,7 @@
     internal class Boss : Enemy
     {
         const string BossNamePath = "Content/bossNames.txt";
-        public int BossMultiplier = 2;
+        public float BossMultiplier = 1.5f;
 
         // CONSTRUCTORS
         public Boss(PathDifficulty difficulty) : base(difficulty)
@@ -11,8 +11,8 @@
             Name = RandomBossName();
             HP *= BossMultiplier;
             XpDropped *= BossMultiplier;
-            MinDamage *= BossMultiplier;
-            MaxDamage *= BossMultiplier;
+            MinDamage = (int)(MinDamage * BossMultiplier);
+            MaxDamage = (int)(MaxDamage * BossMultiplier);
         }
 
         // METHODS

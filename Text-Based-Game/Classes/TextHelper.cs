@@ -3,7 +3,7 @@
     static class TextHelper
     {
         /// <summary>
-        /// 
+        /// Reads all lines in a file and either prints it line by line or letter by letter.
         /// </summary>
         public static void PrintTextFile(string path, bool letterByLetter)
         {
@@ -33,7 +33,7 @@
         }
 
         /// <summary>
-        /// Prints a string one character at a time
+        /// Prints a string one character at a time. Can write text in color specified.
         /// </summary>
         public static void PrintStringCharByChar(string line, ConsoleColor color = ConsoleColor.Gray)
         {
@@ -48,8 +48,9 @@
             }
             ChangeForegroundColor(ConsoleColor.Gray);
         }
+
         /// <summary>
-        /// 
+        /// Writes text in color specified to the console. Defaults to write on a new line, can be set to write on the same line.
         /// </summary>
         public static void PrintTextInColor(string line, ConsoleColor color, bool newLine = true)
         {
@@ -66,7 +67,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Changes the foreground (text) color of the console 
         /// </summary>
         public static void ChangeForegroundColor(ConsoleColor color)
         {
@@ -74,7 +75,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Writes a blank line to the console
         /// </summary>
         public static void LineSpacing(int lines = 1)
         {

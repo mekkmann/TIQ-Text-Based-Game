@@ -18,6 +18,7 @@
     internal class GamePath
     {
         const string OutroPath = "Content/outro.txt";
+        const string CreditsPath = "Content/credits.txt";
         public GameManager GameManagerRef { get; private set; }
         public string PathStartMessage { get; set; }
         public string PathCompletionMessage { get; set; }
@@ -49,7 +50,7 @@
             switch (Difficulty)
             {
                 case PathDifficulty.Easy:
-                    XpOnCompletion = 1000f;
+                    XpOnCompletion = 100f;
                     break;
                 case PathDifficulty.Medium:
                     XpOnCompletion = 200f;
@@ -246,6 +247,7 @@
             {
                 TextHelper.LineSpacing(0);
                 TextHelper.PrintTextFile(OutroPath, true);
+                TextHelper.PrintTextFile(CreditsPath, true);
                 TextHelper.LineSpacing();
             }
             TeleportToTown();

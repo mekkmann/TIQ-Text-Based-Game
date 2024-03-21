@@ -2,7 +2,7 @@
 {
     internal class Enemy
     {
-        const string mobNamesPath = "Content/mobNames.txt";
+        const string MobNamesPath = "Content/mobNames.txt";
         public string Name { get; set; }
         public float StatMultiplier { get; set; }
         public int BaseHp = 25;
@@ -88,7 +88,7 @@
         private string RandomMobName()
         {
             Random random = new();
-            string[] allNames = File.ReadAllLines(mobNamesPath);
+            string[] allNames = File.ReadAllLines(MobNamesPath);
             return allNames[random.Next(allNames.Length)];
         }
     }

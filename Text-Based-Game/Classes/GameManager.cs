@@ -157,7 +157,16 @@
             {
                 CurrentPath.XpFromMobsOnPath += boss.XpDropped;
                 Console.Write($"{boss.Name} collapses, ");
-                TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP!\n\n", ConsoleColor.Blue, false);
+                if (boss.ItemToDrop != null)
+                {
+                    TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP", ConsoleColor.Blue, false);
+                    TextHelper.PrintTextInColor($" and {((Weapon)boss.ItemToDrop).Name} ({((Weapon)boss.ItemToDrop).Rarity})!\n\n", ConsoleColor.Blue, false);
+                    Player.PickUpLoot(boss.ItemToDrop);
+                }
+                else
+                {
+                    TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP!\n\n", ConsoleColor.Blue, false);
+                }
             }
             else
             {
