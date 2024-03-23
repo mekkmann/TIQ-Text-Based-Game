@@ -18,6 +18,8 @@ namespace Text_Based_Game
             // spacing
             Console.WriteLine();
             // ask the player if they want to start the game
+
+            //TextHelper.PrintDeathAnimation(ConsoleColor.DarkRed);
             Console.Write("Are you ready to start your adventure? (Y)es or any other key to quit: ");
             // get input
             ConsoleKeyInfo key = Console.ReadKey();

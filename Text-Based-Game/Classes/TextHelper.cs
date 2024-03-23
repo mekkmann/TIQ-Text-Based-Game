@@ -5,7 +5,7 @@
 
         public static void PrintDeathAnimation(ConsoleColor color)
         {
-            var frame1 = File.ReadAllLines("Content/death1.txt");
+            var frame1 = File.ReadAllLines($"Content/death1.txt");
             var frame2 = File.ReadAllLines("Content/death2.txt");
             var frame3 = File.ReadAllLines("Content/death3.txt");
             var frame4 = File.ReadAllLines("Content/death4.txt");

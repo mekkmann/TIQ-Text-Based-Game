@@ -1,6 +1,4 @@
-﻿using System.Media;
-
-namespace Text_Based_Game.Classes
+﻿namespace Text_Based_Game.Classes
 {
     enum Location
     {
@@ -391,8 +389,6 @@ namespace Text_Based_Game.Classes
         /// </summary>
         public void LevelUp()
         {
-            SoundPlayer levelUpSound = new("Content/powerUp.wav");
-            levelUpSound.Play();
             CurrentLevel++;
 
             // TESTING
