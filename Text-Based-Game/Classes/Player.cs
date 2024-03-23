@@ -45,7 +45,7 @@
             Vitality = StartingVitality;
             Strength = StartingStrength;
             MaxHp = CalculateMaxHP();
-            CurrentHp = MaxHp;
+            SetCurrentHpToMax();
             Respawns = 3;
             IsDead = false;
             CurrentLocation = Location.Town;
@@ -92,7 +92,7 @@
                 Console.WriteLine("No weapons in bag");
                 if (CurrentLocation != Location.Town)
                 {
-                    GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+                    GameManagerRef.CurrentPath.ShowOptionsAfterInteractiveEvent();
                 }
                 else
                 {
@@ -142,15 +142,14 @@
                     validInput = true;
                     if (input == "r")
                     {
-                        //if (CurrentLocation != Location.Town)
-                        //{
-                        //    GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
-                        //}
-                        //else
-                        //{
-                        //    ShowStats();
-                        //}
-                        ShowStats();
+                        if (CurrentLocation != Location.Town)
+                        {
+                            GameManagerRef.CurrentPath.ShowOptionsAfterInteractiveEvent();
+                        }
+                        else
+                        {
+                            GameManagerRef.ShowTownOptions();
+                        }
                         return;
                     }
                     else
@@ -165,7 +164,7 @@
             } while (!validInput);
             if (CurrentLocation != Location.Town)
             {
-                GameManagerRef.CurrentPath?.ShowOptionsAfterInteractiveEvent();
+                GameManagerRef.CurrentPath.ShowOptionsAfterInteractiveEvent();
             }
             else
             {

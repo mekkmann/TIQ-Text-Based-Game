@@ -11,7 +11,7 @@ namespace Text_Based_Game
             // spacing
             TextHelper.LineSpacing(0);
             // wait 2.5 seconds
-            Thread.Sleep(2500);
+            //Thread.Sleep(2500);
             // print the intro lore
             TextHelper.PrintTextFile(Globals.IntroPath, true);
             // spacing
