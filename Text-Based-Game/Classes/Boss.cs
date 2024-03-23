@@ -13,10 +13,7 @@
             MinDamage = (int)(MinDamage * BossMultiplier);
             MaxDamage = (int)(MaxDamage * BossMultiplier);
         }
-        public Boss(PathDifficulty difficulty, string name) : this(difficulty)
-        {
-            Name = name;
-        }
+        public Boss(PathDifficulty difficulty, string name) : this(difficulty) { Name = name; }
 
         // METHODS
         private string RandomBossName()

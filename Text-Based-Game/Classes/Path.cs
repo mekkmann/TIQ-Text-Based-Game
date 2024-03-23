@@ -156,7 +156,7 @@
                         PlayerRef.SpeakAboutEnvironment();
                         break;
                     case PathStepType.MobFight:
-                        Enemy currentEnemy = new(Difficulty);
+                        Enemy currentEnemy = new(Difficulty, "TestMob");
                         GameManagerRef.SimulateRegularCombat(currentEnemy);
                         ShowOptionsAfterInteractiveEvent();
                         break;

@@ -34,11 +34,7 @@
 
             DodgeChance = 0.1f;
         }
-        public Enemy(PathDifficulty difficulty, string name) : this(difficulty)
-        {
-            Name = name;
-        }
-
+        public Enemy(PathDifficulty difficulty, string name) : this(difficulty) { Name = name; }
         // METHODS
 
 
