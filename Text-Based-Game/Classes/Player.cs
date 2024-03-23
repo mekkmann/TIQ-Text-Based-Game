@@ -14,13 +14,13 @@
 
     internal class Player
     {
-        const int StartingVitality = 500;
-        const int StartingStrength = 5;
-        public GameManager GameManagerRef { get; private set; }
+        private const int StartingVitality = 500;
+        private const int StartingStrength = 5;
+        public const string Name = "Alaric";
+        private GameManager GameManagerRef { get; set; }
         public string[] EnvironmentObservations { get; private set; }
         public Weapon EquippedWeapon = new(Rarity.Common, "Broken Sword Hilt");
         public List<Weapon> WeaponsInBag = [];
-        public readonly string Name = "Alaric";
         public int CurrentLevel = 1;
         public float XpToLevelUp = 200;
         public float CurrentXP = 0;
@@ -36,10 +36,12 @@
         public Location CurrentLocation { get; set; }
         public int Respawns { get; set; }
         public bool IsDead { get; set; }
+        private Random Random { get; set; }
 
         // CONSTRUCTORS
         public Player(GameManager gameManagerRef)
         {
+            Random = new();
             Vitality = StartingVitality;
             Strength = StartingStrength;
             MaxHp = CalculateMaxHP();
@@ -53,27 +55,26 @@
 
         // METHODS
 
-        public void PickUpLoot(object loot)
+        /// <summary>
+        /// Adds a weapon to player inventory
+        /// </summary>
+        public void PickUpWeapon(Weapon loot)
         {
-            if (loot.GetType() == typeof(Weapon))
-            {
-                WeaponsInBag.Add((Weapon)loot);
-            }
+            WeaponsInBag.Add(loot);
         }
 
         /// <summary>
-        /// 
+        /// Returns amount of attacks (array[0]) and total damage of all attacks (array[1])
         /// </summary>
         public int[] CalculateAttack()
         {
-            Random random = new();
 
-            int numberOfAttacks = random.Next(EquippedWeapon.MinAttacksPerTurn, EquippedWeapon.MaxAttacksPerTurn + 1);
+            int numberOfAttacks = Random.Next(EquippedWeapon.MinAttacksPerTurn, EquippedWeapon.MaxAttacksPerTurn + 1);
 
             int totalDamage = 0;
             for (int i = 0; i < numberOfAttacks; i++)
             {
-                totalDamage += random.Next(EquippedWeapon.MinDamage + Strength, EquippedWeapon.MaxDamage + Strength + 1);
+                totalDamage += Random.Next(EquippedWeapon.MinDamage + Strength, EquippedWeapon.MaxDamage + Strength + 1);
             }
 
 
@@ -83,7 +84,7 @@
         /// <summary>
         /// 
         /// </summary>
-        public void ChangeEquipment()
+        public void ChangeEquipmentScreen()
         {
             TextHelper.LineSpacing(0);
             if (WeaponsInBag.Count == 0)
@@ -187,7 +188,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Sets current hp to max
         /// </summary>
         public void SetCurrentHpToMax()
         {
@@ -195,7 +196,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Returns mx hp after calculation
         /// </summary>
         private int CalculateMaxHP()
         {
@@ -281,7 +282,7 @@
                         ShowStats();
                         break;
                     case ConsoleKey.C:
-                        ChangeEquipment();
+                        ChangeEquipmentScreen();
 
                         break;
                 }
@@ -289,7 +290,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Increase a stat by 1 and decrease available skillpoints by 1
         /// </summary>
         public void IncreaseStat(ConsoleKeyInfo key)
         {
@@ -313,7 +314,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Increase a stat by a specified amount [DOES NOT DECREASE AVAILABLE SKILLPOINTS]
         /// </summary>
         public void IncreaseStat(Stat stat, int amount)
         {
@@ -329,6 +330,9 @@
             }
         }
 
+        /// <summary>
+        /// Decrease a stat by a specified amount
+        /// </summary>
         public void DecreaseStat(Stat stat, int amount)
         {
             switch (stat)
@@ -347,7 +351,7 @@
             }
         }
         /// <summary>
-        /// 
+        /// Increases players current xp and checks if player can level up
         /// </summary>
         public void IncreaseXP(float xpGained)
         {
@@ -359,7 +363,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Decreases players current xp to a maximum of 0
         /// </summary>
         public void DecreaseXP(float xpLost)
         {
@@ -384,6 +388,7 @@
             VitalitySkillPoints = 0;
             StrengthSkillPoints = 0;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -412,7 +417,7 @@
             }
         }
         /// <summary>
-        /// 
+        /// Decreases current hp by specified amount and checks if current hp is under/equals to 0 and marks player as dead if it is
         /// </summary>
         public void TakeDamage(int damageTaken)
         {
@@ -425,7 +430,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Increases players current hp by amount specified and limits current hp to max hp
         /// </summary>
         public void Heal(int amountHealed)
         {
@@ -434,7 +439,6 @@
             {
                 return;
             }
-
             // heal player for amountHealed
             CurrentHp += amountHealed;
             // if hp goes over maxHp
@@ -446,14 +450,13 @@
         }
 
         /// <summary>
-        /// 
+        /// Gets a random sentence from an array and writes it to the console
         /// </summary>
         public void SpeakAboutEnvironment()
         {
-            Random random = new();
-            string randomSentence = EnvironmentObservations[random.Next(EnvironmentObservations.Length)];
+            string randomSentence = EnvironmentObservations[Random.Next(EnvironmentObservations.Length)];
             TextHelper.PrintStringCharByChar(randomSentence, ConsoleColor.White);
-            Console.WriteLine();
+            TextHelper.LineSpacing(0);
         }
     }
 }

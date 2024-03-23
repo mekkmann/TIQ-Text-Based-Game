@@ -4,7 +4,7 @@
     {
         Player Player { get; set; }
         public bool CanTakeFinalPath = false;
-        public GamePath? CurrentPath { get; set; }
+        public GamePath CurrentPath { get; set; }
         private int MaxPathLengthEasy = 15;
         private int MinPathLengthEasy = 10;
         private int MaxPathLengthMedium = 20;
@@ -16,11 +16,14 @@
         private string[] ReturnToTownMessages;
         private string[] PathStartMessages;
         private string[] PathCompletionMessages;
+        private Random Random { get; set; }
 
         // CONSTRUCTORS
         public GameManager()
         {
+            Random = new();
             Player = new(this);
+            CurrentPath = GeneratePath(PathDifficulty.Easy);
             ReturnToTownMessages = File.ReadAllLines(Globals.ReturnToTownMessagesPath);
             PathStartMessages = File.ReadAllLines(Globals.PathStartMessagesPath);
             PathCompletionMessages = File.ReadAllLines(Globals.PathCompletionMessagesPath);
@@ -29,16 +32,17 @@
         // METHODS
 
         /// <summary>
-        /// 
+        /// Start the first path
         /// </summary>
         public void StartGame()
         {
-            Console.WriteLine("NewGameModifier: " + Globals.NewGameModifier);
-            CurrentPath = GeneratePath(PathDifficulty.Easy);
-            CurrentPath?.TraversePath();
+            Console.WriteLine("TESTING NewGameModifier: " + Globals.NewGameModifier);
+            CurrentPath.TraversePath();
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void StartNewJourney()
         {
             Globals.NewGameModifier++;
@@ -47,18 +51,18 @@
             TextHelper.PrintTextFile(Globals.TitlePath, false);
             StartGame();
         }
+
         /// <summary>
         /// 
         /// </summary>
         public void SimulateRegularCombat(Enemy enemy)
         {
-            Random random = new();
             TextHelper.ChangeForegroundColor(ConsoleColor.Yellow);
             Console.WriteLine($"\nYou've encountered {enemy.Name}, {enemy.Hp} HP");
             Thread.Sleep(500);
             do
             {
-                if (random.NextDouble() < enemy.DodgeChance)
+                if (Random.NextDouble() < enemy.DodgeChance)
                 {
                     Console.WriteLine($"The {enemy.Name} gracefully evades your attack");
                 }
@@ -98,8 +102,8 @@
                 if (enemy.WeaponToDrop != null)
                 {
                     TextHelper.PrintTextInColor($"you've gained {enemy.XpDropped} XP", ConsoleColor.Blue, false);
-                    TextHelper.PrintTextInColor($" and {((Weapon)enemy.WeaponToDrop).Name} ({((Weapon)enemy.WeaponToDrop).Rarity})!\n\n", ConsoleColor.Blue, false);
-                    Player.PickUpLoot(enemy.WeaponToDrop);
+                    TextHelper.PrintTextInColor($" and {enemy.WeaponToDrop.Name} ({enemy.WeaponToDrop.Rarity})!\n\n", ConsoleColor.Blue, false);
+                    Player.PickUpWeapon(enemy.WeaponToDrop);
                 }
                 else
                 {
@@ -119,14 +123,12 @@
         /// </summary>
         public void SimulateBossCombat(Boss boss)
         {
-            Random random = new();
-
             TextHelper.ChangeForegroundColor(ConsoleColor.Red);
             Console.WriteLine($"\nYou've encountered {boss.Name}, {boss.Hp} HP");
             Thread.Sleep(500);
             do
             {
-                if (random.NextDouble() < boss.DodgeChance)
+                if (Random.NextDouble() < boss.DodgeChance)
                 {
                     Console.WriteLine($"{boss.Name} gracefully evades your attack");
                 }
@@ -166,8 +168,8 @@
                 if (boss.WeaponToDrop != null)
                 {
                     TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP", ConsoleColor.Blue, false);
-                    TextHelper.PrintTextInColor($" and {((Weapon)boss.WeaponToDrop).Name} ({((Weapon)boss.WeaponToDrop).Rarity})!\n\n", ConsoleColor.Blue, false);
-                    Player.PickUpLoot(boss.WeaponToDrop);
+                    TextHelper.PrintTextInColor($" and {boss.WeaponToDrop.Name} ({boss.WeaponToDrop.Rarity})!\n\n", ConsoleColor.Blue, false);
+                    Player.PickUpWeapon(boss.WeaponToDrop);
                 }
                 else
                 {
@@ -207,7 +209,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Handles input buffering
         /// </summary>
         public static void HandleInputBuffering()
         {
@@ -313,14 +315,12 @@
         }
 
         /// <summary>
-        /// 
+        /// Returns a GamePath based of the difficulty
         /// </summary>
         public GamePath GeneratePath(PathDifficulty chosenDifficulty)
         {
-            Random random = new();
-
-            string randomPathStartMessage = PathStartMessages[random.Next(PathStartMessages.Length)];
-            string randomPathCompletionMessage = PathCompletionMessages[random.Next(PathCompletionMessages.Length)];
+            string randomPathStartMessage = PathStartMessages[Random.Next(PathStartMessages.Length)];
+            string randomPathCompletionMessage = PathCompletionMessages[Random.Next(PathCompletionMessages.Length)];
 
             int minLength = MinPathLengthEasy;
             int maxLength = MaxPathLengthEasy;
@@ -339,7 +339,7 @@
                     maxLength = MaxPathLengthFinal;
                     break;
             }
-            int randomPathLength = random.Next(minLength, maxLength + 1);
+            int randomPathLength = Random.Next(minLength, maxLength + 1);
 
             GamePath newPath = new(
                 randomPathStartMessage,

@@ -216,7 +216,7 @@
             }
             else if (key.Key == ConsoleKey.E)
             {
-                PlayerRef.ChangeEquipment();
+                PlayerRef.ChangeEquipmentScreen();
             }
         }
 
