@@ -15,7 +15,6 @@
         }
         public Boss(PathDifficulty difficulty, string name) : base(difficulty, name)
         {
-            Name = name;
             Hp = (int)(Hp * BossMultiplier);
             XpDropped *= BossMultiplier;
             MinDamage = (int)(MinDamage * BossMultiplier);

@@ -161,7 +161,7 @@
                         ShowOptionsAfterInteractiveEvent();
                         break;
                     case PathStepType.BossFight:
-                        Boss currentBoss = new(Difficulty);
+                        Boss currentBoss = new(Difficulty, "TestBoss");
                         GameManagerRef.SimulateBossCombat(currentBoss);
                         if (i != PathSteps.Count - 1)
                         {

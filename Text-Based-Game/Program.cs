@@ -9,17 +9,14 @@ namespace Text_Based_Game
             // print the title
             TextHelper.PrintTextFile(Globals.TitlePath, false);
             // spacing
-            Console.WriteLine();
-            // for build
+            TextHelper.LineSpacing(0);
             // wait 2.5 seconds
-            //Thread.Sleep(2500);
+            Thread.Sleep(2500);
             // print the intro lore
             TextHelper.PrintTextFile(Globals.IntroPath, true);
             // spacing
-            Console.WriteLine();
+            TextHelper.LineSpacing(0);
             // ask the player if they want to start the game
-
-            //TextHelper.PrintDeathAnimation(ConsoleColor.DarkRed);
             Console.Write("Are you ready to start your adventure? (Y)es or any other key to quit: ");
             // get input
             ConsoleKeyInfo key = Console.ReadKey();
@@ -29,7 +26,7 @@ namespace Text_Based_Game
                 Environment.Exit(0);
             }
             // spacing
-            Console.WriteLine("\n");
+            TextHelper.LineSpacing();
             // initialize GameManager
             GameManager gameManager = new();
             // start game
