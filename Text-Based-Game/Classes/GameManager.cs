@@ -1,4 +1,6 @@
-﻿namespace Text_Based_Game.Classes
+﻿using System.Media;
+
+namespace Text_Based_Game.Classes
 {
     internal class GameManager
     {
@@ -52,6 +54,7 @@
         /// </summary>
         public void SimulateRegularCombat(Enemy enemy)
         {
+            SoundPlayer hitHurtSound = new("Content/hitHurt.wav");
             Random random = new();
             TextHelper.ChangeForegroundColor(ConsoleColor.Yellow);
             Console.WriteLine($"\nYou've encountered {enemy.Name}, {enemy.Hp} HP");
@@ -78,6 +81,7 @@
                         Console.WriteLine($"You attack {enemy.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg");
                     }
                     enemy.TakeDamage(playerAttack[1]);
+                    hitHurtSound.Play();
                 }
                 Thread.Sleep(500);
 
@@ -86,6 +90,8 @@
                     int enemyDamage = enemy.CalculateAttack();
                     Player.TakeDamage(enemyDamage);
                     Console.WriteLine($"{enemy.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP");
+                    hitHurtSound.Play();
+
                 }
                 Thread.Sleep(500);
 
@@ -93,6 +99,7 @@
 
             if (enemy.Hp <= 0)
             {
+                SoundPlayer gainXpSound = new("Content/pickupCoin.wav");
                 CurrentPath.XpFromMobsOnPath += enemy.XpDropped;
                 Console.Write($"The {enemy.Name} collapses, ");
                 if (enemy.ItemToDrop != null)
@@ -105,6 +112,7 @@
                 {
                     TextHelper.PrintTextInColor($"you've gained {enemy.XpDropped} XP!\n\n", ConsoleColor.Blue, false);
                 }
+                gainXpSound.Play();
             }
             else
             {
