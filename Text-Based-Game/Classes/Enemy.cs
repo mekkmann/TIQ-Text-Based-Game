@@ -3,78 +3,29 @@
     internal class Enemy
     {
         public string Name { get; set; }
-        public float StatMultiplier { get; set; }
-        public int BaseHp = 25;
+        private float StatMultiplier { get; set; }
+        private readonly int BaseHp = 25;
         public int Hp { get; set; }
         public int MinDamage { get; set; }
         public int MaxDamage { get; set; }
         public float DodgeChance { get; set; }
-        public int BaseXP = 12;
+        private readonly int BaseXP = 12;
         public float XpDropped { get; set; }
-        public object? ItemToDrop { get; set; }
+        public Weapon? WeaponToDrop { get; set; }
+        private Random Random { get; set; }
 
 
         // CONSTRUCTORS
         public Enemy(PathDifficulty difficulty)
         {
-            Random random = new();
+            Random = new();
             Name = RandomMobName();
-            double randomDouble = random.NextDouble();
-            switch (difficulty)
+            StatMultiplier = GetStatMultiplier(difficulty);
+            if (Random.NextDouble() < 0.25f)
             {
-                case PathDifficulty.Easy:
-                    StatMultiplier = 1.0f;
-                    if (randomDouble <= 0.125f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Uncommon);
-                        break;
-                    }
-                    else if (randomDouble <= 0.25f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Common);
-                        break;
-                    }
-                    break;
-                case PathDifficulty.Medium:
-                    StatMultiplier = 1.5f;
-                    if (randomDouble <= 0.125f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Rare);
-                        break;
-                    }
-                    else if (randomDouble <= 0.25f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Uncommon);
-                        break;
-                    }
-                    break;
-                case PathDifficulty.Hard:
-                    StatMultiplier = 3.0f;
-                    if (randomDouble <= 0.125f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Epic);
-                        break;
-                    }
-                    else if (randomDouble <= 0.25f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Rare);
-                        break;
-                    }
-                    break;
-                case PathDifficulty.Final:
-                    StatMultiplier = 5.0f;
-                    if (randomDouble <= 0.125f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Legendary);
-                        break;
-                    }
-                    else if (randomDouble <= 0.25f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Epic);
-                        break;
-                    }
-                    break;
+                WeaponToDrop = GenerateWeaponToDrop(difficulty);
             }
+
             Hp = (int)(BaseHp * StatMultiplier * Globals.NewGameModifier);
             XpDropped = BaseXP * StatMultiplier * Globals.NewGameModifier;
 
@@ -83,86 +34,86 @@
 
             DodgeChance = 0.1f;
         }
-
-        public Enemy(PathDifficulty difficulty, string name)
+        public Enemy(PathDifficulty difficulty, string name) : this(difficulty)
         {
-            Random random = new();
-            double randomDouble = random.NextDouble();
             Name = name;
-            switch (difficulty)
-            {
-                case PathDifficulty.Easy:
-                    StatMultiplier = 1.0f;
-                    if (randomDouble <= 0.125f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Uncommon);
-                        break;
-                    }
-                    else if (randomDouble <= 0.25f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Common);
-                        break;
-                    }
-                    break;
-                case PathDifficulty.Medium:
-                    StatMultiplier = 1.5f;
-                    if (randomDouble <= 0.125f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Rare);
-                        break;
-                    }
-                    else if (randomDouble <= 0.25f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Uncommon);
-                        break;
-                    }
-                    break;
-                case PathDifficulty.Hard:
-                    StatMultiplier = 3.0f;
-                    if (randomDouble <= 0.125f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Epic);
-                        break;
-                    }
-                    else if (randomDouble <= 0.25f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Rare);
-                        break;
-                    }
-                    break;
-                case PathDifficulty.Final:
-                    StatMultiplier = 5.0f;
-                    if (randomDouble <= 0.125f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Legendary);
-                        break;
-                    }
-                    else if (randomDouble <= 0.25f)
-                    {
-                        ItemToDrop = new Weapon(Rarity.Epic);
-                        break;
-                    }
-                    break;
-            }
-            Hp = (int)(BaseHp * StatMultiplier * Globals.NewGameModifier);
-            XpDropped = BaseXP * StatMultiplier * Globals.NewGameModifier;
-
-            MinDamage = (int)(2 * StatMultiplier * Globals.NewGameModifier);
-            MaxDamage = (int)(6 * StatMultiplier * Globals.NewGameModifier);
-
-            DodgeChance = 0.1f;
         }
 
         // METHODS
 
+
         /// <summary>
-        /// 
+        /// Returns a weapon out of one of two rarities depending on the difficulty
+        /// </summary>
+        private Weapon GenerateWeaponToDrop(PathDifficulty difficulty)
+        {
+            double randomDouble = Random.NextDouble();
+
+            switch (difficulty)
+            {
+                case PathDifficulty.Medium:
+                    if (randomDouble <= 0.125f)
+                    {
+                        return new Weapon(Rarity.Rare);
+                    }
+                    else
+                    {
+                        return new Weapon(Rarity.Uncommon);
+                    }
+                case PathDifficulty.Hard:
+                    if (randomDouble <= 0.125f)
+                    {
+                        return new Weapon(Rarity.Epic);
+                    }
+                    else
+                    {
+                        return new Weapon(Rarity.Rare);
+                    }
+                case PathDifficulty.Final:
+                    if (randomDouble <= 0.125f)
+                    {
+                        return new Weapon(Rarity.Legendary);
+                    }
+                    else
+                    {
+                        return new Weapon(Rarity.Epic);
+                    }
+                default:
+                    if (randomDouble <= 0.125f)
+                    {
+                        return new Weapon(Rarity.Uncommon);
+                    }
+                    else
+                    {
+                        return new Weapon(Rarity.Common);
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Returns the stat multiplier for the specified difficulty
+        /// </summary>
+        private float GetStatMultiplier(PathDifficulty difficulty)
+        {
+            switch (difficulty)
+            {
+                case PathDifficulty.Medium:
+                    return 1.5f;
+                case PathDifficulty.Hard:
+                    return 3.0f;
+                case PathDifficulty.Final:
+                    return 5.0f;
+                default:
+                    return 1.0f;
+            }
+        }
+
+        /// <summary>
+        /// Returns the amount of damage an attack will do
         /// </summary>
         public int CalculateAttack()
         {
-            Random random = new();
-
-            return random.Next(MinDamage, MaxDamage + 1);
+            return Random.Next(MinDamage, MaxDamage + 1);
         }
 
         /// <summary>
@@ -182,9 +133,8 @@
         /// </summary>
         private string RandomMobName()
         {
-            Random random = new();
             string[] allNames = File.ReadAllLines(Globals.MobNamesPath);
-            return allNames[random.Next(allNames.Length)];
+            return allNames[Random.Next(allNames.Length)];
         }
     }
 }

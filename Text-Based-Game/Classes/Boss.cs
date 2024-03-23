@@ -13,12 +13,9 @@
             MinDamage = (int)(MinDamage * BossMultiplier);
             MaxDamage = (int)(MaxDamage * BossMultiplier);
         }
-        public Boss(PathDifficulty difficulty, string name) : base(difficulty, name)
+        public Boss(PathDifficulty difficulty, string name) : this(difficulty)
         {
-            Hp = (int)(Hp * BossMultiplier);
-            XpDropped *= BossMultiplier;
-            MinDamage = (int)(MinDamage * BossMultiplier);
-            MaxDamage = (int)(MaxDamage * BossMultiplier);
+            Name = name;
         }
 
         // METHODS

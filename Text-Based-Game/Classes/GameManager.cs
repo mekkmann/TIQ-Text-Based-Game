@@ -95,11 +95,11 @@
             {
                 CurrentPath.XpFromMobsOnPath += enemy.XpDropped;
                 Console.Write($"The {enemy.Name} collapses, ");
-                if (enemy.ItemToDrop != null)
+                if (enemy.WeaponToDrop != null)
                 {
                     TextHelper.PrintTextInColor($"you've gained {enemy.XpDropped} XP", ConsoleColor.Blue, false);
-                    TextHelper.PrintTextInColor($" and {((Weapon)enemy.ItemToDrop).Name} ({((Weapon)enemy.ItemToDrop).Rarity})!\n\n", ConsoleColor.Blue, false);
-                    Player.PickUpLoot(enemy.ItemToDrop);
+                    TextHelper.PrintTextInColor($" and {((Weapon)enemy.WeaponToDrop).Name} ({((Weapon)enemy.WeaponToDrop).Rarity})!\n\n", ConsoleColor.Blue, false);
+                    Player.PickUpLoot(enemy.WeaponToDrop);
                 }
                 else
                 {
@@ -163,11 +163,11 @@
             {
                 CurrentPath.XpFromMobsOnPath += boss.XpDropped;
                 Console.Write($"{boss.Name} collapses, ");
-                if (boss.ItemToDrop != null)
+                if (boss.WeaponToDrop != null)
                 {
                     TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP", ConsoleColor.Blue, false);
-                    TextHelper.PrintTextInColor($" and {((Weapon)boss.ItemToDrop).Name} ({((Weapon)boss.ItemToDrop).Rarity})!\n\n", ConsoleColor.Blue, false);
-                    Player.PickUpLoot(boss.ItemToDrop);
+                    TextHelper.PrintTextInColor($" and {((Weapon)boss.WeaponToDrop).Name} ({((Weapon)boss.WeaponToDrop).Rarity})!\n\n", ConsoleColor.Blue, false);
+                    Player.PickUpLoot(boss.WeaponToDrop);
                 }
                 else
                 {
