@@ -236,11 +236,12 @@
             TextHelper.LineSpacing(0);
             if (Difficulty == PathDifficulty.Final)
             {
+                Globals.EndTime = DateTime.Now;
                 TextHelper.LineSpacing(0);
                 TextHelper.PrintTextFile(Globals.OutroPath, true);
                 TextHelper.PrintTextFile(Globals.CreditsPath, true);
                 TextHelper.LineSpacing();
-
+                Console.WriteLine("This run took you: " + Globals.EndTime.Subtract(Globals.StartTime));
                 Console.Write($"\nDo you want to (s)tart Journey {Globals.NewGameModifier + 1} or (q)uit : ");
                 ConsoleKeyInfo key = Console.ReadKey();
                 bool validInput = false;

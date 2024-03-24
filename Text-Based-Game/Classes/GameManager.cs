@@ -40,6 +40,7 @@
         public void StartGame()
         {
             //Console.WriteLine("TESTING NewGameModifier: " + Globals.NewGameModifier);
+            Globals.StartTime = DateTime.Now;
             CurrentPath.TraversePath();
         }
 

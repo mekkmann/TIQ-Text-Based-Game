@@ -17,5 +17,7 @@
         public const string EpicNamePath = "Content/epicNames.txt";
         public const string BossNamePath = "Content/bossNames.txt";
         public const string MobNamesPath = "Content/mobNames.txt";
+        public static DateTime StartTime;
+        public static DateTime EndTime;
     }
 }
