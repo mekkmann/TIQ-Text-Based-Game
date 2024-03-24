@@ -2,20 +2,23 @@
 {
     internal class GameManager
     {
-        Player Player { get; set; }
-        public bool CanTakeFinalPath = false;
+        // PROPERTIES
+        private Player Player { get; set; }
         public GamePath CurrentPath { get; set; }
-        private int MaxPathLengthEasy = 15;
-        private int MinPathLengthEasy = 10;
-        private int MaxPathLengthMedium = 20;
-        private int MinPathLengthMedium = 10;
-        private int MaxPathLengthHard = 25;
-        private int MinPathLengthHard = 15;
-        private int MaxPathLengthFinal = 30;
-        private int MinPathLengthFinal = 20;
-        private string[] ReturnToTownMessages;
-        private string[] PathStartMessages;
-        private string[] PathCompletionMessages;
+
+        // VARIABLES
+        public bool CanTakeFinalPath = false;
+        private readonly int MaxPathLengthEasy = 15;
+        private readonly int MinPathLengthEasy = 10;
+        private readonly int MaxPathLengthMedium = 20;
+        private readonly int MinPathLengthMedium = 10;
+        private readonly int MaxPathLengthHard = 25;
+        private readonly int MinPathLengthHard = 15;
+        private readonly int MaxPathLengthFinal = 30;
+        private readonly int MinPathLengthFinal = 20;
+        private readonly string[] ReturnToTownMessages;
+        private readonly string[] PathStartMessages;
+        private readonly string[] PathCompletionMessages;
         public Random Random { get; set; }
 
         // CONSTRUCTORS
@@ -36,7 +39,7 @@
         /// </summary>
         public void StartGame()
         {
-            Console.WriteLine("TESTING NewGameModifier: " + Globals.NewGameModifier);
+            //Console.WriteLine("TESTING NewGameModifier: " + Globals.NewGameModifier);
             CurrentPath.TraversePath();
         }
 
@@ -46,7 +49,7 @@
         public void StartNewJourney()
         {
             Globals.NewGameModifier++;
-            Player.WeaponsInBag.Clear();
+            Player.WeaponInventory.Clear();
             Console.Clear();
             TextHelper.PrintTextFile(Globals.TitlePath, false);
             StartGame();
@@ -194,15 +197,16 @@
                     if (key.Key == ConsoleKey.R)
                     {
                         Player.Respawns--;
+                        Player.Heal((int)Player.MaxHp / 2);
                         SimulateBossCombat(boss);
+                        Player.IsDead = false;
                     }
                     else
                     {
                         TextHelper.LineSpacing(0);
+                        Player.IsDead = true;
                     }
                 }
-
-                Player.IsDead = true;
                 CurrentPath.TeleportToTown(boss.Name);
             }
             TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
@@ -288,8 +292,7 @@
             Player.IsDead = false;
             if (Player.CurrentLocation != Location.Town)
             {
-                Random random = new();
-                TextHelper.PrintStringCharByChar(ReturnToTownMessages[random.Next(ReturnToTownMessages.Length)], ConsoleColor.White);
+                TextHelper.PrintStringCharByChar(ReturnToTownMessages[Random.Next(ReturnToTownMessages.Length)], ConsoleColor.White);
                 Player.CurrentLocation = Location.Town;
                 Player.SetCurrentHpToMax();
             }

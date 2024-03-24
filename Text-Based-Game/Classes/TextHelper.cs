@@ -2,7 +2,6 @@
 {
     static class TextHelper
     {
-
         public static void PrintDeathAnimation(ConsoleColor color)
         {
             var frame1 = File.ReadAllLines($"Content/death1.txt");
@@ -55,9 +54,6 @@
             {
                 Console.WriteLine(line);
             }
-            Random random = new();
-            Thread.Sleep(random.Next(1000, 2001));
-            Console.WriteLine("Do you want to (r)espawn? :");
 
             ChangeForegroundColor(ConsoleColor.Gray);
         }

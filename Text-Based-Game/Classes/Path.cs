@@ -15,6 +15,7 @@
         BossFight,
         MobFight
     }
+
     internal class GamePath
     {
         public GameManager GameManagerRef { get; private set; }
@@ -239,7 +240,6 @@
                 TextHelper.PrintTextFile(Globals.CreditsPath, true);
                 TextHelper.LineSpacing();
 
-                TextHelper.PrintTextInColor("SHOULD DISPLAY NG+ OPTION", ConsoleColor.Magenta);
                 Console.Write($"\nDo you want to (s)tart Journey {Globals.NewGameModifier + 1} or (q)uit : ");
                 ConsoleKeyInfo key = Console.ReadKey();
                 bool validInput = false;
@@ -269,6 +269,7 @@
         {
             if (!PlayerRef.IsDead)
             {
+
                 Console.Write("Teleporting back to town... ");
                 if (!IsCompleted)
                 {
@@ -282,10 +283,16 @@
             }
             else
             {
-                Console.WriteLine($"You've died to {enemyName}, teleporting back to town...");
+                TextHelper.PrintDeathAnimation(ConsoleColor.Red);
+                Thread.Sleep(2000);
+                Console.WriteLine($"\nYou've died to {enemyName}, teleporting back to town...");
                 float xpLost = XpFromMobsOnPath * 0.5f;
                 PlayerRef.IncreaseXP(XpFromMobsOnPath - xpLost);
                 TextHelper.PrintTextInColor($"You've lost {xpLost} XP in the temporal twist...\n", ConsoleColor.DarkRed);
+                Thread.Sleep(2000);
+                Console.Clear();
+                TextHelper.PrintTextFile(Globals.TitlePath, false);
+                TextHelper.LineSpacing();
             }
 
             GameManagerRef.ShowTownOptions();

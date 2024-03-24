@@ -14,13 +14,13 @@
 
     internal class Player
     {
-        private const int StartingVitality = 500;
+        private const int StartingVitality = 5;
         private const int StartingStrength = 5;
         public const string Name = "Alaric";
         private GameManager GameManagerRef { get; set; }
-        public string[] EnvironmentObservations { get; private set; }
+        private readonly string[] EnvironmentObservations;
         public Weapon EquippedWeapon = new(Rarity.Common, "Broken Sword Hilt");
-        public List<Weapon> WeaponsInBag = [];
+        public List<Weapon> WeaponInventory = [];
         public int CurrentLevel = 1;
         public float XpToLevelUp = 200;
         public float CurrentXP = 0;
@@ -60,7 +60,7 @@
         /// </summary>
         public void PickUpWeapon(Weapon loot)
         {
-            WeaponsInBag.Add(loot);
+            WeaponInventory.Add(loot);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@
         public void ChangeEquipmentScreen()
         {
             TextHelper.LineSpacing(0);
-            if (WeaponsInBag.Count == 0)
+            if (WeaponInventory.Count == 0)
             {
                 Console.WriteLine("No weapons in bag");
                 if (CurrentLocation != Location.Town)
@@ -113,9 +113,9 @@
             }
             Console.WriteLine($"    Vitality Boost: {EquippedWeapon.VitalityBonus}");
             Console.WriteLine($"    Strength Boost: {EquippedWeapon.StrengthBonus}");
-            for (var i = 0; i < WeaponsInBag.Count; i++)
+            for (var i = 0; i < WeaponInventory.Count; i++)
             {
-                Weapon temp = WeaponsInBag[i];
+                Weapon temp = WeaponInventory[i];
                 Console.WriteLine($"{i + 1}. {temp.Name} ({temp.Rarity})");
                 Console.WriteLine($"    Damage: {temp.MinDamage} - {temp.MaxDamage}");
                 if (temp.MinAttacksPerTurn == temp.MaxAttacksPerTurn)
@@ -137,7 +137,7 @@
             {
                 string input = Console.ReadLine();
                 _ = int.TryParse(input, out int valueAsInt);
-                if (input.ToLower() == "r" || valueAsInt <= WeaponsInBag.Count && valueAsInt != 0)
+                if (input.ToLower() == "r" || valueAsInt <= WeaponInventory.Count && valueAsInt != 0)
                 {
                     validInput = true;
                     if (input == "r")
@@ -154,7 +154,15 @@
                     }
                     else
                     {
-                        EquipWeapon(WeaponsInBag[valueAsInt - 1]);
+                        EquipWeapon(WeaponInventory[valueAsInt - 1]);
+                        if (CurrentLocation != Location.Town)
+                        {
+                            GameManagerRef.CurrentPath.ShowOptionsAfterInteractiveEvent();
+                        }
+                        else
+                        {
+                            GameManagerRef.ShowTownOptions();
+                        }
                     }
                 }
                 else
@@ -162,26 +170,18 @@
                     Console.Write("No choice was made, please try again: ");
                 }
             } while (!validInput);
-            if (CurrentLocation != Location.Town)
-            {
-                GameManagerRef.CurrentPath.ShowOptionsAfterInteractiveEvent();
-            }
-            else
-            {
-                ShowStats();
-            }
         }
 
         /// <summary>
-        /// 
+        /// Equips a weapon from inventory and unequips currently equipped weapon
         /// </summary>
         public void EquipWeapon(Weapon weapon)
         {
             DecreaseStat(Stat.Vitality, EquippedWeapon.VitalityBonus);
             DecreaseStat(Stat.Strength, EquippedWeapon.StrengthBonus);
-            WeaponsInBag.Add(EquippedWeapon);
+            WeaponInventory.Add(EquippedWeapon);
             EquippedWeapon = weapon;
-            WeaponsInBag.Remove(EquippedWeapon);
+            WeaponInventory.Remove(EquippedWeapon);
             IncreaseStat(Stat.Vitality, weapon.VitalityBonus);
             IncreaseStat(Stat.Strength, weapon.StrengthBonus);
         }
@@ -249,7 +249,7 @@
                         break;
                     case ConsoleKey.V:
                     case ConsoleKey.S:
-                        IncreaseStat(key);
+                        IncreaseStatWithSkillpoints(key);
                         ShowStats();
                         break;
                     case ConsoleKey.E:
@@ -291,7 +291,7 @@
         /// <summary>
         /// Increase a stat by 1 and decrease available skillpoints by 1
         /// </summary>
-        public void IncreaseStat(ConsoleKeyInfo key)
+        public void IncreaseStatWithSkillpoints(ConsoleKeyInfo key)
         {
             if (AvailableSkillpoints <= 0) return;
 
@@ -380,8 +380,10 @@
         {
             Vitality -= VitalitySkillPoints;
             Strength -= StrengthSkillPoints;
+
             MaxHp = CalculateMaxHP();
             SetCurrentHpToMax();
+
             AvailableSkillpoints += VitalitySkillPoints + StrengthSkillPoints;
 
             VitalitySkillPoints = 0;
