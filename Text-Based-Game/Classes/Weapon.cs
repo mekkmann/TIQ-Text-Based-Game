@@ -25,8 +25,8 @@
         public Weapon(Rarity rarity)
         {
             Random = new();
-            Name = WeaponName();
             Rarity = rarity;
+            Name = WeaponName();
             MinAttacksPerTurn = GenerateMinAttacks();
             MaxAttacksPerTurn = GenerateMaxAttacks();
             VitalityBonus = GenerateStatBonus();
@@ -269,8 +269,28 @@
         /// </summary>
         private string WeaponName()
         {
-            string[] allNames = File.ReadAllLines(Globals.WeaponNamePath);
-            return allNames[Random.Next(allNames.Length)];
+            string[] allNames;
+
+            switch (Rarity)
+            {
+                case Rarity.Common:
+                    allNames = File.ReadAllLines(Globals.CommonNamePath);
+                    return allNames[Random.Next(allNames.Length)];
+
+                case Rarity.Uncommon:
+                    allNames = File.ReadAllLines(Globals.UncommonNamePath);
+                    return allNames[Random.Next(allNames.Length)];
+
+                case Rarity.Rare:
+                    allNames = File.ReadAllLines(Globals.RareNamePath);
+                    return allNames[Random.Next(allNames.Length)];
+
+                case Rarity.Epic:
+                    allNames = File.ReadAllLines(Globals.EpicNamePath);
+                    return allNames[Random.Next(allNames.Length)];
+                default:
+                    return "Forlorn Baguette";
+            }
         }
     }
 }

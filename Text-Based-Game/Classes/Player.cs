@@ -231,20 +231,20 @@
             Console.WriteLine($"    Strength Boost: {EquippedWeapon.StrengthBonus}");
             if (AvailableSkillpoints > 0)
             {
-                Console.Write("\nWould you like to increase (v)itality or (s)trength, r(e)spec or (r)eturn to your adventure?: ");
+                Console.Write("\nWould you like to increase (v)itality or (s)trength, (r)espec or (c)ontinue to your adventure?: ");
                 ConsoleKeyInfo key = Console.ReadKey();
                 bool validInput = false;
-                if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R || key.Key == ConsoleKey.E) validInput = true;
+                if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R || key.Key == ConsoleKey.C) validInput = true;
                 while (!validInput)
                 {
                     Console.Write("\nNo choice was made, please try again: ");
                     key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R || key.Key == ConsoleKey.E) validInput = true;
+                    if (key.Key == ConsoleKey.V || key.Key == ConsoleKey.S || key.Key == ConsoleKey.R || key.Key == ConsoleKey.C) validInput = true;
                 }
                 Console.WriteLine("\n");
                 switch (key.Key)
                 {
-                    case ConsoleKey.R:
+                    case ConsoleKey.C:
                         GameManagerRef.ShowTownOptions();
                         break;
                     case ConsoleKey.V:
@@ -252,7 +252,7 @@
                         IncreaseStatWithSkillpoints(key);
                         ShowStats();
                         break;
-                    case ConsoleKey.E:
+                    case ConsoleKey.R:
                         ResetSkillPoints();
                         ShowStats();
                         break;
@@ -260,7 +260,7 @@
             }
             else
             {
-                Console.Write("\nWould you like to r(e)spec, (c)hange your equipment or (r)eturn to your adventure?: ");
+                Console.Write("\nWould you like to (r)espec, change your (e)quipment or (c)ontinue to your adventure?: ");
                 ConsoleKeyInfo key = Console.ReadKey();
                 bool validInput = false;
                 if (key.Key == ConsoleKey.R || key.Key == ConsoleKey.E || key.Key == ConsoleKey.C) validInput = true;
@@ -273,14 +273,14 @@
                 //Console.WriteLine("\n");
                 switch (key.Key)
                 {
-                    case ConsoleKey.R:
+                    case ConsoleKey.C:
                         GameManagerRef.ShowTownOptions();
                         break;
-                    case ConsoleKey.E:
+                    case ConsoleKey.R:
                         ResetSkillPoints();
                         ShowStats();
                         break;
-                    case ConsoleKey.C:
+                    case ConsoleKey.E:
                         ChangeEquipmentScreen();
                         break;
                 }

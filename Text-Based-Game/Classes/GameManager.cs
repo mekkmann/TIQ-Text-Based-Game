@@ -175,12 +175,12 @@
                 if (boss.WeaponToDrop != null)
                 {
                     TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP", ConsoleColor.Blue, false);
-                    TextHelper.PrintTextInColor($" and {boss.WeaponToDrop.Name} ({boss.WeaponToDrop.Rarity})!\n\n", ConsoleColor.Blue, false);
+                    TextHelper.PrintTextInColor($" and {boss.WeaponToDrop.Name} ({boss.WeaponToDrop.Rarity})!\n", ConsoleColor.Blue, false);
                     Player.PickUpWeapon(boss.WeaponToDrop);
                 }
                 else
                 {
-                    TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP!\n\n", ConsoleColor.Blue, false);
+                    TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP!\n", ConsoleColor.Blue, false);
                 }
             }
             else

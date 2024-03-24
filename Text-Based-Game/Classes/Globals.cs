@@ -11,7 +11,10 @@
         public const string PathCompletionMessagesPath = "Content/pathCompletionMessages.txt";
         public const string OutroPath = "Content/outro.txt";
         public const string CreditsPath = "Content/credits.txt";
-        public const string WeaponNamePath = "Content/weaponNames.txt";
+        public const string CommonNamePath = "Content/commonNames.txt";
+        public const string UncommonNamePath = "Content/uncommonNames.txt";
+        public const string RareNamePath = "Content/rareNames.txt";
+        public const string EpicNamePath = "Content/epicNames.txt";
         public const string BossNamePath = "Content/bossNames.txt";
         public const string MobNamesPath = "Content/mobNames.txt";
     }
