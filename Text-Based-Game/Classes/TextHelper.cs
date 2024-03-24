@@ -4,7 +4,7 @@
     {
         public static void PrintDeathAnimation(ConsoleColor color)
         {
-            var frame1 = File.ReadAllLines($"Content/death1.txt");
+            var frame1 = File.ReadAllLines("Content/death1.txt");
             var frame2 = File.ReadAllLines("Content/death2.txt");
             var frame3 = File.ReadAllLines("Content/death3.txt");
             var frame4 = File.ReadAllLines("Content/death4.txt");
@@ -19,37 +19,37 @@
                 Console.WriteLine(line);
             }
             Thread.Sleep(100);
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             foreach (var line in frame2)
             {
                 Console.WriteLine(line);
             }
             Thread.Sleep(100);
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             foreach (var line in frame3)
             {
                 Console.WriteLine(line);
             }
             Thread.Sleep(100);
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             foreach (var line in frame4)
             {
                 Console.WriteLine(line);
             }
             Thread.Sleep(100);
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             foreach (var line in frame5)
             {
                 Console.WriteLine(line);
             }
             Thread.Sleep(100);
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             foreach (var line in frame6)
             {
                 Console.WriteLine(line);
             }
             Thread.Sleep(100);
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             foreach (var line in frame7)
             {
                 Console.WriteLine(line);

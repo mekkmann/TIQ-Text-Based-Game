@@ -86,9 +86,9 @@
         /// </summary>
         public void ChangeEquipmentScreen()
         {
-            TextHelper.LineSpacing(0);
             if (WeaponInventory.Count == 0)
             {
+                TextHelper.LineSpacing(0);
                 Console.WriteLine("No weapons in bag");
                 if (CurrentLocation != Location.Town)
                 {
@@ -100,6 +100,7 @@
                 }
                 return;
             }
+            TextHelper.LineSpacing(0);
             Console.WriteLine("Weapons:");
             Console.WriteLine($"Currently Equipped: {EquippedWeapon.Name} ({EquippedWeapon.Rarity})");
             Console.WriteLine($"    Damage: {EquippedWeapon.MinDamage} - {EquippedWeapon.MaxDamage}");
@@ -207,8 +208,7 @@
         /// </summary>
         public void ShowStats()
         {
-            Console.WriteLine("\n");
-            Console.WriteLine("Your Stats: ");
+            Console.WriteLine("\nYour Stats: ");
             Console.WriteLine($"Level: {CurrentLevel}");
             Console.WriteLine($"Current XP: {(int)CurrentXP}");
             Console.WriteLine($"XP needed for next level: {(int)XpToLevelUp}");
@@ -270,7 +270,7 @@
                     key = Console.ReadKey();
                     if (key.Key == ConsoleKey.R || key.Key == ConsoleKey.E || key.Key == ConsoleKey.C) validInput = true;
                 }
-                Console.WriteLine("\n");
+                //Console.WriteLine("\n");
                 switch (key.Key)
                 {
                     case ConsoleKey.R:
@@ -282,7 +282,6 @@
                         break;
                     case ConsoleKey.C:
                         ChangeEquipmentScreen();
-
                         break;
                 }
             }

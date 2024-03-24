@@ -52,6 +52,10 @@
             Player.WeaponInventory.Clear();
             Console.Clear();
             TextHelper.PrintTextFile(Globals.TitlePath, false);
+            TextHelper.LineSpacing();
+            Player.CurrentLocation = Location.Town;
+            CurrentPath = GeneratePath(PathDifficulty.Easy);
+            Player.SetCurrentHpToMax();
             StartGame();
         }
 
@@ -198,16 +202,21 @@
                     {
                         Player.Respawns--;
                         Player.Heal((int)Player.MaxHp / 2);
-                        SimulateBossCombat(boss);
                         Player.IsDead = false;
+                        SimulateBossCombat(boss);
                     }
                     else
                     {
                         TextHelper.LineSpacing(0);
                         Player.IsDead = true;
+                        CurrentPath.TeleportToTown(boss.Name);
                     }
                 }
-                CurrentPath.TeleportToTown(boss.Name);
+                else
+                {
+                    Player.IsDead = true;
+                    CurrentPath.TeleportToTown(boss.Name);
+                }
             }
             TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
         }

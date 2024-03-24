@@ -139,6 +139,7 @@
         /// </summary>
         public void TraversePath()
         {
+            PlayerRef.SetCurrentHpToMax();
             PlayerRef.CurrentLocation = Location.Path;
             TextHelper.PrintStringCharByChar(PathStartMessage, ConsoleColor.White);
             TextHelper.LineSpacing(0);
@@ -267,6 +268,7 @@
         /// </summary>
         public void TeleportToTown(string enemyName = "")
         {
+            PlayerRef.Respawns = 3;
             if (!PlayerRef.IsDead)
             {
 
@@ -285,16 +287,16 @@
             {
                 TextHelper.PrintDeathAnimation(ConsoleColor.Red);
                 Thread.Sleep(2000);
-                Console.WriteLine($"\nYou've died to {enemyName}, teleporting back to town...");
+                TextHelper.LineSpacing(0);
+                Console.WriteLine($"You've died to {enemyName}, teleporting back to town...");
                 float xpLost = XpFromMobsOnPath * 0.5f;
                 PlayerRef.IncreaseXP(XpFromMobsOnPath - xpLost);
                 TextHelper.PrintTextInColor($"You've lost {xpLost} XP in the temporal twist...\n", ConsoleColor.DarkRed);
                 Thread.Sleep(2000);
                 Console.Clear();
                 TextHelper.PrintTextFile(Globals.TitlePath, false);
-                TextHelper.LineSpacing();
+                Console.WriteLine();
             }
-
             GameManagerRef.ShowTownOptions();
             Console.WriteLine();
         }

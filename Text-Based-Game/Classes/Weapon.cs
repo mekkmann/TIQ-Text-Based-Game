@@ -172,7 +172,7 @@
                     }
                     else
                     {
-                        return Random.Next(3, 8 + 1);
+                        return Random.Next(4, 8 + 1);
                     }
                 case Rarity.Rare:
                     if (Random.NextDouble() < 0.25f)
