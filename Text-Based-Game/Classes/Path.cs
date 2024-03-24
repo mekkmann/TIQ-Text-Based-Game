@@ -239,6 +239,7 @@
                 Globals.EndTime = DateTime.Now;
                 TextHelper.LineSpacing(0);
                 TextHelper.PrintTextFile(Globals.OutroPath, true);
+                TextHelper.LineSpacing();
                 TextHelper.PrintTextFile(Globals.CreditsPath, true);
                 TextHelper.LineSpacing();
                 Console.WriteLine("This run took you: " + Globals.EndTime.Subtract(Globals.StartTime));
