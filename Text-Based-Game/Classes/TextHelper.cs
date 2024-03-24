@@ -66,17 +66,21 @@
 
             if (letterByLetter)
             {
-                //foreach (string line in fileLines)
-                //{
-                //    PrintStringCharByChar(line);
-                //    // for build
-                //    //Thread.Sleep(500);
-                //    Console.WriteLine();
-                //}
+#if !DEBUG
+                foreach (string line in fileLines)
+                {
+                    PrintStringCharByChar(line);
+                    Thread.Sleep(500);
+                    Console.WriteLine();
+                }
+#endif
+
+#if DEBUG
                 foreach (string line in fileLines)
                 {
                     Console.WriteLine(line);
                 }
+#endif
             }
             else
             {
@@ -96,10 +100,13 @@
             foreach (char c in line)
             {
                 Console.Write(c);
-                // for debug
+#if DEBUG
                 Thread.Sleep(5);
-                //for build
-                //Thread.Sleep(25);
+#endif
+
+#if !DEBUG
+                Thread.Sleep(25);
+#endif
             }
             ChangeForegroundColor(ConsoleColor.Gray);
         }
