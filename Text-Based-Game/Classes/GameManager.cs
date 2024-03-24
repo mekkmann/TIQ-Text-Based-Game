@@ -64,48 +64,47 @@
         /// </summary>
         public void SimulateRegularCombat(Enemy enemy)
         {
-            TextHelper.ChangeForegroundColor(ConsoleColor.Yellow);
-            Console.WriteLine($"\nYou've encountered {enemy.Name}, {enemy.Hp} HP");
+            TextHelper.PrintTextInColor($"\nYou've encountered {enemy.Name}, {enemy.CurrentHp} HP", ConsoleColor.Yellow);
             Thread.Sleep(500);
             do
             {
                 if (Random.NextDouble() < enemy.DodgeChance)
                 {
-                    Console.WriteLine($"The {enemy.Name} gracefully evades your attack");
+                    TextHelper.PrintTextInColor($"The {enemy.Name} gracefully evades your attack", ConsoleColor.DarkYellow);
                 }
                 else
                 {
                     int[] playerAttack = Player.CalculateAttack();
+                    enemy.TakeDamage(playerAttack[1]);
                     if (playerAttack[0] == 0)
                     {
-                        Console.WriteLine($"You attack {enemy.Name} but trip and whiff entirely");
+                        TextHelper.PrintTextInColor($"You attack {enemy.Name} but trip and whiff entirely", ConsoleColor.Yellow);
                     }
                     else if (playerAttack[0] == 1)
                     {
-                        Console.WriteLine($"You attack {enemy.Name} and do {playerAttack[1]} dmg");
+                        TextHelper.PrintTextInColor($"You attack {enemy.Name} and do {playerAttack[1]} dmg, {enemy.CurrentHp}/{enemy.MaxHp} HP", ConsoleColor.Yellow);
                     }
                     else
                     {
-                        Console.WriteLine($"You attack {enemy.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg");
+                        TextHelper.PrintTextInColor($"You attack {enemy.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg, {enemy.CurrentHp}/{enemy.MaxHp} HP", ConsoleColor.Yellow);
                     }
-                    enemy.TakeDamage(playerAttack[1]);
                 }
                 Thread.Sleep(500);
 
-                if (enemy.Hp > 0)
+                if (enemy.CurrentHp > 0)
                 {
                     int enemyDamage = enemy.CalculateAttack();
                     Player.TakeDamage(enemyDamage);
-                    Console.WriteLine($"{enemy.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP");
+                    TextHelper.PrintTextInColor($"{enemy.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP", ConsoleColor.DarkYellow);
                 }
                 Thread.Sleep(500);
 
-            } while (enemy.Hp > 0 && Player.CurrentHp > 0);
+            } while (enemy.CurrentHp > 0 && Player.CurrentHp > 0);
 
-            if (enemy.Hp <= 0)
+            if (enemy.CurrentHp <= 0)
             {
                 CurrentPath.XpFromMobsOnPath += enemy.XpDropped;
-                Console.Write($"The {enemy.Name} collapses, ");
+                TextHelper.PrintTextInColor($"The {enemy.Name} collapses, ", ConsoleColor.Yellow, false);
                 if (enemy.WeaponToDrop != null)
                 {
                     TextHelper.PrintTextInColor($"you've gained {enemy.XpDropped} XP", ConsoleColor.Blue, false);
@@ -122,7 +121,6 @@
                 Player.IsDead = true;
                 CurrentPath.TeleportToTown(enemy.Name);
             }
-            TextHelper.ChangeForegroundColor(ConsoleColor.Gray);
         }
 
         /// <summary>
@@ -130,48 +128,47 @@
         /// </summary>
         public void SimulateBossCombat(Boss boss)
         {
-            TextHelper.ChangeForegroundColor(ConsoleColor.Red);
-            Console.WriteLine($"\nYou've encountered {boss.Name}, {boss.Hp} HP");
+            TextHelper.PrintTextInColor($"\nYou've encountered {boss.Name}, {boss.CurrentHp} HP", ConsoleColor.Red);
             Thread.Sleep(500);
             do
             {
                 if (Random.NextDouble() < boss.DodgeChance)
                 {
-                    Console.WriteLine($"{boss.Name} gracefully evades your attack");
+                    TextHelper.PrintTextInColor($"{boss.Name} gracefully evades your attack", ConsoleColor.DarkRed);
                 }
                 else
                 {
                     int[] playerAttack = Player.CalculateAttack();
                     if (playerAttack[0] == 0)
                     {
-                        Console.WriteLine($"You attack {boss.Name} but trip and whiff entirely");
+                        TextHelper.PrintTextInColor($"You attack {boss.Name} but trip and whiff entirely", ConsoleColor.Red);
                     }
                     else if (playerAttack[0] == 1)
                     {
-                        Console.WriteLine($"You attack {boss.Name} and do {playerAttack[1]} dmg");
+                        TextHelper.PrintTextInColor($"You attack {boss.Name} and do {playerAttack[1]} dmg", ConsoleColor.Red);
                     }
                     else
                     {
-                        Console.WriteLine($"You attack {boss.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg");
+                        TextHelper.PrintTextInColor($"You attack {boss.Name} {playerAttack[0]} times for a total of {playerAttack[1]} dmg", ConsoleColor.Red);
                     }
                     boss.TakeDamage(playerAttack[1]);
                 }
                 Thread.Sleep(500);
 
-                if (boss.Hp > 0)
+                if (boss.CurrentHp > 0)
                 {
                     int enemyDamage = boss.CalculateAttack();
                     Player.TakeDamage(enemyDamage);
-                    Console.WriteLine($"{boss.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP");
+                    TextHelper.PrintTextInColor($"{boss.Name} attacks, you take {enemyDamage} dmg, {Player.CurrentHp}/{Player.MaxHp} HP", ConsoleColor.DarkRed);
                 }
                 Thread.Sleep(500);
 
-            } while (boss.Hp > 0 && Player.CurrentHp > 0);
+            } while (boss.CurrentHp > 0 && Player.CurrentHp > 0);
 
-            if (boss.Hp <= 0)
+            if (boss.CurrentHp <= 0)
             {
                 CurrentPath.XpFromMobsOnPath += boss.XpDropped;
-                Console.Write($"{boss.Name} collapses, ");
+                TextHelper.PrintTextInColor($"{boss.Name} collapses, ", ConsoleColor.Red, false);
                 if (boss.WeaponToDrop != null)
                 {
                     TextHelper.PrintTextInColor($"you've gained {boss.XpDropped} XP", ConsoleColor.Blue, false);

@@ -5,7 +5,8 @@
         public string Name { get; set; }
         private float StatMultiplier { get; set; }
         private readonly int BaseHp = 25;
-        public int Hp { get; set; }
+        public int MaxHp { get; set; }
+        public int CurrentHp { get; set; }
         public int MinDamage { get; set; }
         public int MaxDamage { get; set; }
         public float DodgeChance { get; set; }
@@ -25,7 +26,8 @@
                 WeaponToDrop = GenerateWeaponToDrop(difficulty);
             }
 
-            Hp = (int)(BaseHp * StatMultiplier * Globals.NewGameModifier);
+            MaxHp = (int)(BaseHp * StatMultiplier * Globals.NewGameModifier);
+            CurrentHp = MaxHp;
             XpDropped = BaseXP * StatMultiplier * Globals.NewGameModifier;
 
             MinDamage = (int)(2 * StatMultiplier * Globals.NewGameModifier);
@@ -116,10 +118,10 @@
         /// </summary>
         public void TakeDamage(int damage)
         {
-            Hp -= damage;
-            if (Hp < 0)
+            CurrentHp -= damage;
+            if (CurrentHp < 0)
             {
-                Hp = 0;
+                CurrentHp = 0;
             }
         }
 

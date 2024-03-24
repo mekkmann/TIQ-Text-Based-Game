@@ -8,7 +8,7 @@
         public Boss(PathDifficulty difficulty) : base(difficulty)
         {
             Name = RandomBossName();
-            Hp = (int)(Hp * BossMultiplier);
+            CurrentHp = (int)(CurrentHp * BossMultiplier);
             XpDropped *= BossMultiplier;
             MinDamage = (int)(MinDamage * BossMultiplier);
             MaxDamage = (int)(MaxDamage * BossMultiplier);
