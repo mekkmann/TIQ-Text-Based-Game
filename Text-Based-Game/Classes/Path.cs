@@ -275,8 +275,8 @@
                 Console.Write("Teleporting back to town... ");
                 if (!IsCompleted)
                 {
-                    PlayerRef.IncreaseXP(XpFromMobsOnPath);
                     TextHelper.PrintTextInColor($"{XpFromMobsOnPath} XP gained.\n\n", ConsoleColor.Blue, false);
+                    PlayerRef.IncreaseXP(XpFromMobsOnPath);
                 }
                 else
                 {

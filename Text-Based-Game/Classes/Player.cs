@@ -410,7 +410,7 @@
             Console.Write("Congratulations, ");
             TextHelper.PrintTextInColor($"you've reached lvl {CurrentLevel}", ConsoleColor.Blue, false);
             Console.Write($"! {SkillPointsPerLevel} new skill {(SkillPointsPerLevel == 1 ? "point" : "points")} available.");
-            Console.WriteLine();
+            Console.WriteLine("\n");
             if (CurrentXP >= XpToLevelUp)
             {
                 LevelUp();

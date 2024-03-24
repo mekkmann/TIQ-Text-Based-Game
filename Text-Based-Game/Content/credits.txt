@@ -1,4 +1,4 @@
 This game was created by Mekkmann as part of the Indie Quest curriculum.
 
-Special thanks to Matej 'Retronator' Jan for sharing his library that allowed me to put this console project on itch.
+Special thanks to DanSchu and ScriptMage
 Support Retronator: [something here]

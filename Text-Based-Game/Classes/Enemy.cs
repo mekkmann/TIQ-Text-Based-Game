@@ -14,7 +14,6 @@
         public Weapon? WeaponToDrop { get; set; }
         private Random Random { get; set; }
 
-
         // CONSTRUCTORS
         public Enemy(PathDifficulty difficulty)
         {
