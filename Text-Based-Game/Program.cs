@@ -29,6 +29,9 @@ namespace Text_Based_Game
             TextHelper.LineSpacing();
             // initialize GameManager
             GameManager gameManager = new();
+            //TextHelper.PrintDeathAnimation(ConsoleColor.DarkGreen);
+
+            //Console.ReadLine();
             // start game
             gameManager.StartGame();
         }

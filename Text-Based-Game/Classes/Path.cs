@@ -38,7 +38,6 @@
 
             Difficulty = difficulty;
             PathLength = 5;
-            //PathLength = pathLength;
             PathSteps = MakePath(Difficulty);
             IsCompleted = false;
             PlayerRef = player;
@@ -158,12 +157,12 @@
                         PlayerRef.SpeakAboutEnvironment();
                         break;
                     case PathStepType.MobFight:
-                        Enemy currentEnemy = new(Difficulty, "TestMob");
+                        Enemy currentEnemy = new(Difficulty);
                         GameManagerRef.SimulateRegularCombat(currentEnemy);
                         ShowOptionsAfterInteractiveEvent();
                         break;
                     case PathStepType.BossFight:
-                        Boss currentBoss = new(Difficulty, "TestBoss");
+                        Boss currentBoss = new(Difficulty);
                         GameManagerRef.SimulateBossCombat(currentBoss);
                         if (i != PathSteps.Count - 1)
                         {
